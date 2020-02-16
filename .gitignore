@@ -76,11 +76,6 @@ Temporary Items
 
 ### Drupal8 Composer
 drupal8-composer/composer.lock
-drupal8-composer/docker/docker-compose.override.yml
 
 ### Drupal8 Recommended
-drupal8-recommended/web
-drupal8-recommended/vendor
-drupal8-recommended/.editorconfig
-drupal8-recommended/.gitattributes
 drupal8-recommended/composer.lock
