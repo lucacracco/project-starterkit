@@ -75,10 +75,7 @@ Temporary Items
 .idea
 
 ### Drupal8 Composer
-drupal8-composer/vendor
-drupal8-composer/web
 drupal8-composer/composer.lock
-drupal8-composer/private
 drupal8-composer/docker/docker-compose.override.yml
 
 ### Drupal8 Recommended

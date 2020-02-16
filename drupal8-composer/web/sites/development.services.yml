@@ -1,0 +1,18 @@
+# Local development services.
+#
+# To activate this feature, follow the instructions at the top of the
+# 'example.settings.local.php' file, which sits next to this file.
+parameters:
+  http.response.debug_cacheability_headers: true
+#  twig.config:
+#    # Twig debugging
+#    # For more information about debugging Twig templates, see
+#    # https://www.drupal.org/node/1906392.
+#    debug: true
+#    # Twig auto-reload
+#    auto_reload: true
+#    # Twig cache.
+#    cache: false
+services:
+  cache.backend.null:
+    class: Drupal\Core\Cache\NullBackendFactory
