@@ -132,3 +132,4 @@ web/libraries/
 
 # Ingore docker-copose.override.yml
 docker/docker-compose.override.yml
+docker/.env

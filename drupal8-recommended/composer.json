@@ -12,13 +12,20 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/lucacracco/robo-drupal.git"
         }
     ],
     "require": {
         "composer/installers": "^1.2",
+        "drupal/console": "^1.0.2",
         "drupal/core-composer-scaffold": "^8.8",
         "drupal/core-project-message": "^8.8",
-        "drupal/core-recommended": "^8.8"
+        "drupal/core-recommended": "^8.8",
+        "drush/drush": "^9.7.1 | ^10.0.0",
+        "lucacracco/robo-drupal": "dev-master"
     },
     "require-dev": {
     },
@@ -30,6 +37,16 @@
     "config": {
         "sort-packages": true
     },
+    "scripts": {
+        "prestissimo":[
+            "composer global require hirak/prestissimo --prefer-dist"
+        ],
+        "nuke": [
+            "rm -rf vendor web/core web/modules/contrib web/profiles/contrib web/themes/contrib",
+            "@composer clearcache --ansi",
+            "@composer install --ansi --no-interaction --prefer-dist"
+        ]
+    },
     "extra": {
         "drupal-scaffold": {
             "locations": {
@@ -38,7 +55,9 @@
             "file-mapping": {
                 "[web-root]/example.gitignore": false,
                 "[web-root]/INSTALL.txt": false,
-                "[web-root]/README.txt": false
+                "[web-root]/README.txt": false,
+                "[web-root]/sites/default/default.settings.php": false,
+                "[web-root]/sites/default/default.services.yml": false
             }
         },
         "installer-paths": {
