@@ -32,13 +32,11 @@ Infine ho personalizzato il file-mapping per escludere dallo scaffold i seguenti
 ### drupal/recommended-project
 
 Dal `composer.json` ho rimosso il `drupal-core-project-message`.
-Ho poi corretto il file-mapping dello scaffold per escludere l'ovverride di:
+Ho poi corretto il file-mapping dello scaffold per escludere i seguenti files:
 
 * `[web-root]/example.gitignore`
 * `[web-root]/INSTALL.txt`
 * `[web-root]/README.txt`
-* `[web-root]/sites/default/default.settings.php`
-* `[web-root]/sites/default/default.services.yml`
 
 ## Componenti
 
@@ -86,7 +84,7 @@ Si scaricare lo zip della progetto base interessato dall'ultima release disponib
 #### Drupal8
 
 - si personalizza il `composer.json` con le librerie, temi, moduli, ... che servono;
-- si personalizza il `default.settings.php` e il `default.services.yml` con quanto necessario: dati di connessione al database, cartella di sincronizzazione ed altro;
+- si personalizza il `default.settings.php` e il `default.services.yml` clonandoli in `tpl.settings.php`/`tpl.services.yml` applicando le personalizzazioni necessarie come i dati di connessione al database, cartella di sincronizzazione ed altro;
 - si utilizza i comandi di Robo per istanziare il portale Drupal:
 `robo drupal:scaffold`: si occupa di generare i files settings/services ed altro;
 `robo drupal:install [profilo]`: procede ad installare il portale col profilo (custom o meno) desiderato. Non serve specificare i dati di connessione al database perchè già definiti nel `settings.php` che è stato generato col comando `scaffold` di prima.
@@ -95,7 +93,7 @@ Si scaricare lo zip della progetto base interessato dall'ultima release disponib
 
 ### settings.php
 
-L'idea è quella di avere un template di default per il `settings.php` definito per sito e personalizzato; durante la procedura di `scaffold` viene preso il template di base `default.settings.php` e clonato in `settings.php`.
+L'idea è quella di avere un template di default per il `settings.php` definito per sito e personalizzato; durante la procedura di `scaffold` viene preso il template di base `tpl.settings.php` e clonato in `settings.php`.
 
 L'incentivo è quello di utilizzare le variabili d'ambiente; molti hosting (AWS, Platform, ecc..) forniscono dati di connessioni (es. database, redis, ecc..) come valori/variabili d'ambiente. L'idea è quella di uniformarsi ed abbandonare l'uso diretto di dati pre-configurati, anche per migliorare l'approccio ed installazione su hosting scalabili.
 
@@ -111,6 +109,39 @@ Ho voluto inserire "il necessario per Docker" in una cartella apposita e non las
 
 Sto sviluppando la libreria [robo-drupal](https://github.com/lucacracco/robo-drupal) perchè possa comunque riuscire a leggere i dati presenti in files di configurazione .yml, caricandoli in modo gerarchico e solamente quelli interessati all'ambiente e al sito richiesto.
 Il passaggio successivo sarà quello di permettere di iniettare questi valori caricati dai files .yml all'interno di un template per `settings.php` e `services.yml` dedicati, usando forse l'engine template di Twig.
+
+## Consigli
+
+* lancia sempre `composer prestissimo` per installarti in locale la libreria ed abbattere i tempi di download dei files del progetto;
+
+* utilizza le variabili d'ambiente per il progetto dove puoi, specificandole nel `docker-compose.yml`come parametri ambientali - così facendo condividerai col team queste informazioni e saranno eventualmente sovrascrivili tramite l'uso del `docker-compose.override.yml`
+
+* sono presenti dei `docker-compose.override.[OS].yml` specifici per sistema operativo: utilizza rinominandolo in `docker-compose.override.yml` quello specifico per il tuo caso;
+
+* nel creare il template di riferimento per il `settings.php` è consigliato integrare/aggiornare le configurazioni seguendo uno schema comune:
+
+  ```php
+  $databases['default']['default'] = [
+    'database' => getenv('DB_NAME'),
+    'username' => getenv('DB_USER'),
+    'password' => getenv('DB_PASSWORD'),
+    'host' => getenv('DB_HOST'),
+    'port' => getenv('DB_PORT'),
+    'driver' => 'mysql',
+    'prefix' => '',
+    'collation' => 'utf8mb4_general_ci',
+  ];
+  ...
+  $settings['config_sync_directory'] = '/directory/outside/webroot';
+  ...
+  $settings['deployment_identifier'] = 'VERSION';
+  ...
+  if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+    include $app_root . '/' . $site_path . '/settings.local.php';
+  }
+  ```
+
+  
 
 ## Considerazioni 
 

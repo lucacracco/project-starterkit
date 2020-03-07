@@ -55,9 +55,7 @@
             "file-mapping": {
                 "[web-root]/example.gitignore": false,
                 "[web-root]/INSTALL.txt": false,
-                "[web-root]/README.txt": false,
-                "[web-root]/sites/default/default.settings.php": false,
-                "[web-root]/sites/default/default.services.yml": false
+                "[web-root]/README.txt": false
             }
         },
         "installer-paths": {

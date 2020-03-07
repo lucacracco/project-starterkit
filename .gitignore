@@ -76,6 +76,12 @@ Temporary Items
 
 ### Drupal8 Composer
 drupal8-composer/composer.lock
+drupal8-composer/web
+drupal8-composer/.editorconfig
+drupal8-composer/.gitattributes
 
 ### Drupal8 Recommended
 drupal8-recommended/composer.lock
+drupal8-recommended/web
+drupal8-recommended/.editorconfig
+drupal8-recommended/.gitattributes
