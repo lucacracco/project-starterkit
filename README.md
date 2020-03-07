@@ -10,77 +10,119 @@ In questo repository, tra il file README e il codice stesso, andrò a trascriver
 
 > L'idea finale è di estenderlo anche ad altri framework o strumenti che utilizzo nei progetti dei miei clienti.
 
-## Drupal8
+## Progetti
 
-* drupal8-composer
-* drupal8-recommended
+* [drupal-composer/drupal-project](https://github.com/drupal-composer/drupal-project)
+* [drupal/recommended-project](https://github.com/drupal/recommended-project)
 
-### Folders
+### drupal-composer/drupal-project
 
-Non ho cambiato nulla dell'alberazione delle cartelle dai progetti originali; per drupal8-composer ho rimosso qualche cosa che non utilizzo come la cartella `scripts` nella quale era presente una classe che inizializzava i files per il sito di default che a volte è più una seccatura che altro.
+Dal repository originale ho rimosso:
 
-**TODO**: non so se lasciare la cartella `drush` nella root per il progetto `drupal8-composer` perchè non mi è mai capitato fin'ora di usarla.
+* la cartella `scripts`
+* `.travis.yml`
+
+Dal `composer.json` ho rimosso il richiamo verso la classe `/scripts/composer/ScriptHandler.php` per non richiamare alcune funzionalità di cui non necessito (verifica versione php e creazione file di default).
+Infine ho personalizzato il file-mapping per escludere dallo scaffold i seguenti files:
+
+* `[web-root]/example.gitignore`
+* `[web-root]/INSTALL.txt`
+* `[web-root]/README.txt`
+
+### drupal/recommended-project
+
+Dal `composer.json` ho rimosso il `drupal-core-project-message`.
+Ho poi corretto il file-mapping dello scaffold per escludere l'ovverride di:
+
+* `[web-root]/example.gitignore`
+* `[web-root]/INSTALL.txt`
+* `[web-root]/README.txt`
+* `[web-root]/sites/default/default.settings.php`
+* `[web-root]/sites/default/default.services.yml`
+
+## Componenti
+
+### Readme
+
+Il readme di ogni progetto è stato rinominato col suffisso `_old.md`.
+E' stato poi aggiunto un README generico e standard per i nuovi progetti, preso dal progetto [SampleReadme.md](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46).
 
 ### Composer
 
-Ai composer di entrambi i progetti ho aggiunto dei comandi che uso ripetutamente:
+Ai `composer.json` di entrambi i progetti ho aggiunto dei comandi che uso ripetutamente:
 
 * `prestissimo`: mi permette di installare globalmente la famosa libreria;
 * `nuke`: si occupa di cancellare la cache di composer, le cartelle `vendor` e le cartelle con il `core` e i moduli/temi/.. contrib per poi scaricare il tutto;
 
-Per il progetto drupal8-composer ho rimosso il richiamo verso la classe `/scripts/composer/ScriptHandler.php` per non richiamare alcune funzionalità di cui non necessito (verifica versione php e creazione file di default).
-
 ### Docker
 
-Non re-inventiamoci la ruota e usiamo: [Docker4Drupal](https://github.com/wodby/docker4drupal) che presenta anche una semplice documentazione tra le stesse pagine di Githubche quelle del servizio stesso: [Local environment with Docker4Drupal](https://wodby.com/docs/stacks/drupal/local/).
+Non re-inventiamoci la ruota e usiamo [Docker4Drupal](https://github.com/wodby/docker4drupal) che presenta anche una semplice documentazione tra le stesse pagine di Github: [Local environment with Docker4Drupal](https://wodby.com/docs/stacks/drupal/local/).
+
+I comandi di docker dovranno essere lanciati all'interno della cartella `docker`; non dalla root del progetto.
 
 ### Robo
 
-### Come si inizia?
+ La libreria che include già i comandi di robo è aparte: [robo-drupal](https://github.com/lucacracco/robo-drupal).
+All'interno di essa vi sono esempi su come interagire con i comandi per personalizzarli o eventualmente rimpiazzarli con dei propri custom definiti in un `Robofile` personalizzato per il progetto.
 
-**Docker**
+Non è quindi necessario definire un `robofile` a meno che non si abbia bisogno di aggiungere comandi specifici al progetto su cui si sta lavorando.
 
-- si personalizza il file `.env.dist` dentro la cartella `docker` copiandolo in `.env`;
+## Come si inizia?
+
+Si scaricare lo zip della progetto base interessato dall'ultima release disponibile e lo si scompatta dove si preferisce.
+
+### Configurazioni di base
+
+* Docker
+* Drupal
+
+#### Docker
+
+- si personalizza il file `.env.dist` dentro la cartella `docker` clonando con nome `.env`;
 - si lancia docker con i comandi presenti nel `Makefile`: 
 `make up && make shell`
 - per vedere gli altri comandi disponibili usare `make help` sempre dall'interno della cartella di docker;
 
-**Drupal8**
+#### Drupal8
 
 - si personalizza il `composer.json` con le librerie, temi, moduli, ... che servono;
+- si personalizza il `default.settings.php` e il `default.services.yml` con quanto necessario: dati di connessione al database, cartella di sincronizzazione ed altro;
 - si utilizza i comandi di Robo per istanziare il portale Drupal:
 `robo drupal:scaffold`: si occupa di generare i files settings/services ed altro;
-`robo drupal:install [profilo]`: procede ad installare il portale col profilo (custom o meno) desiderato. Non serve specificare i dati di connessione al database perchè già definiti nel settings.php che abbiamo incluso col comando `scaffold` di prima.
+`robo drupal:install [profilo]`: procede ad installare il portale col profilo (custom o meno) desiderato. Non serve specificare i dati di connessione al database perchè già definiti nel `settings.php` che è stato generato col comando `scaffold` di prima.
 
-NB: la libreria che include già i comandi di robo è [robo-drupal](https://github.com/lucacracco/robo-drupal).
+## Approfondimenti
 
-#### Approfondimenti
+### settings.php
 
-###### settings.php
+L'idea è quella di avere un template di default per il `settings.php` definito per sito e personalizzato; durante la procedura di `scaffold` viene preso il template di base `default.settings.php` e clonato in `settings.php`.
 
-L'idea è quella di avere un template di default per il `settings.php` definito per sito e personalizzato; durante la procedura di `scaffold` prendere il template di base per clonarlo con le giuste modifiche su quello che poi sarà usato.
+L'incentivo è quello di utilizzare le variabili d'ambiente; molti hosting (AWS, Platform, ecc..) forniscono dati di connessioni (es. database, redis, ecc..) come valori/variabili d'ambiente. L'idea è quella di uniformarsi ed abbandonare l'uso diretto di dati pre-configurati, anche per migliorare l'approccio ed installazione su hosting scalabili.
 
-L'incentivo poi è quello di utilizzare le variabili d'ambiente; molti hosting (AWS, Platform, ecc..) forniscono dati di connesioni (es. database, redis, ecc..) come valori/variabili d'ambiente. L'idea è quella di uniformarsi ed abbandonare l'uso diretto di dati pre-configurati, anche per migliorare l'approccio ed installazione su hosting scalabili.
-
-###### services.yml
+### services.yml
 
 L'idea è la stessa del `settings.php` ma è molto meno difficile trovarsi in situazioni in cui è necessario iniettarci qualcosa dentro di variabile.
 
-### Drupal7
+### Docker
 
-**TODO**
+Ho voluto inserire "il necessario per Docker" in una cartella apposita e non lasciare i files nella root del progetto. Ritengo che per una migliore organizzazione delle cartelle/files del progetto e per mantenere un distacco tra progetto e lamp stack, dividere così l'organizzazione.
+
+## Work in progress
+
+Sto sviluppando la libreria [robo-drupal](https://github.com/lucacracco/robo-drupal) perchè possa comunque riuscire a leggere i dati presenti in files di configurazione .yml, caricandoli in modo gerarchico e solamente quelli interessati all'ambiente e al sito richiesto.
+Il passaggio successivo sarà quello di permettere di iniettare questi valori caricati dai files .yml all'interno di un template per `settings.php` e `services.yml` dedicati, usando forse l'engine template di Twig.
 
 ## Considerazioni 
 
-###### Personali ed appunti (per ricordare che certe idee vanno scartate a priori)
+***Personali ed appunti (per ricordare che certe idee vanno scartate a priori)***
 
 #### Robo
 
 * Robo è un task manager: ingloba più attività in un unica soluzione o meglio comando;
-* Robo non deve fare ne produrre miracoli; non deve mai sostituirsi al lavoro di uno sviluppatore o di un builder o di qualcune persona che ha un compito e un attività manuale da fare;
+* Robo non deve fare ne produrre miracoli; non deve mai sostituirsi al lavoro di uno sviluppatore o di un builder o di qualsiasi persona che ha un compito e un attività manuale da fare;
 * Robo non deve risolverti i problemi;
 * Robo non deve aiutarti a trovare la voglia di lavorare;
-* Robo ti aiuta a non dover ricordare settanta-cinque mila comandi da lanciare in seguenza per eseguire un operazione;
+* Robo ti aiuta a non dover ricordare settanta-cinque mila comandi da lanciare in sequenza per eseguire un operazione;
 * Robo ti aiuta ad eseguire azioni ed attività ripetitive;
 * Robo ti permette di andare in bagno e prenderti il caffè finchè lui si occupa di lanciare 15 comandi di drush che se lo avessi fatto te sicuramente ne avresti dimenticato qualcuno;
 
