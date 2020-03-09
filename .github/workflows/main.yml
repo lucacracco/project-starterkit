@@ -25,6 +25,7 @@ jobs:
       - name: Build project # This would actually build your project, using zip for an example artifact
         run: |
           zip -r d8-composer drupal8-composer
+          zip -r d8-recommended drupal8-recommended
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -35,8 +36,8 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
-      - name: Upload Release
-        id: upload_release
+      - name: Upload Release drupal8-composer
+        id: upload_release_d8_composer
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -44,4 +45,14 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./d8-composer.zip
           asset_name: d8-composer.zip
+          asset_content_type: application/zip
+      - name: Upload Release drupal8-recommended
+        id: upload_release_d8_recommended
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./d8-recommended.zip
+          asset_name: d8-recommended.zip
           asset_content_type: application/zip
