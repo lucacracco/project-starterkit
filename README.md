@@ -84,10 +84,14 @@ Si scaricare lo zip della progetto base interessato dall'ultima release disponib
 #### Drupal8
 
 - si personalizza il `composer.json` con le librerie, temi, moduli, ... che servono;
+- si scaricano i pacchetti e le dipendenze col comando `composer install`;
 - si personalizza il `default.settings.php` e il `default.services.yml` clonandoli in `tpl.settings.php`/`tpl.services.yml` applicando le personalizzazioni necessarie come i dati di connessione al database, cartella di sincronizzazione ed altro;
 - si utilizza i comandi di Robo per istanziare il portale Drupal:
-`robo drupal:scaffold`: si occupa di generare i files settings/services ed altro;
-`robo drupal:install [profilo]`: procede ad installare il portale col profilo (custom o meno) desiderato. Non serve specificare i dati di connessione al database perchè già definiti nel `settings.php` che è stato generato col comando `scaffold` di prima.
+  1. `robo drupal:scaffold`
+     si occupa di generare i files settings/services ed altro;
+  2. `robo drupal:install [profilo]`
+     procede ad installare il portale col profilo (custom o meno) desiderato. 
+     Non serve specificare i dati di connessione al database perchè già definiti nel `settings.php` che è stato generato col comando `scaffold` di prima.
 
 ## Approfondimenti
 
