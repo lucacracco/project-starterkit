@@ -23,20 +23,10 @@ Dal repository originale ho rimosso:
 * `.travis.yml`
 
 Dal `composer.json` ho rimosso il richiamo verso la classe `/scripts/composer/ScriptHandler.php` per non richiamare alcune funzionalità di cui non necessito (verifica versione php e creazione file di default).
-Infine ho personalizzato il file-mapping per escludere dallo scaffold i seguenti files:
-
-* `[web-root]/example.gitignore`
-* `[web-root]/INSTALL.txt`
-* `[web-root]/README.txt`
 
 ### drupal/recommended-project
 
 Dal `composer.json` ho rimosso il `drupal-core-project-message`.
-Ho poi corretto il file-mapping dello scaffold per escludere i seguenti files:
-
-* `[web-root]/example.gitignore`
-* `[web-root]/INSTALL.txt`
-* `[web-root]/README.txt`
 
 ## Componenti
 
