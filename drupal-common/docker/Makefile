@@ -71,6 +71,14 @@ composer:
 drush:
 	docker exec $(shell docker ps --filter name='^/$(PROJECT_NAME)_php' --format "{{ .ID }}") drush -r $(DRUPAL_ROOT) $(filter-out $@,$(MAKECMDGOALS))
 
+## exec	:	Executes command in container php.
+##		To use "--flag" arguments include them in quotation marks.
+##		For example: make exec "echo ciao!"
+.PHONY: exec
+exec:
+	docker exec -t $(shell docker ps --filter name='^/$(PROJECT_NAME)_php' --format "{{ .ID }}") $(filter-out $@,$(MAKECMDGOALS))
+
+
 ## logs	:	View containers logs.
 ##		You can optinally pass an argument with the service name to limit logs
 ##		logs php	: View `php` container logs.

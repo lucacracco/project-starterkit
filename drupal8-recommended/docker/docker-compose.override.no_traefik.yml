@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+
+## Copy this code in your docker-compose.override.yml
+  traefik:
+    image: alpine:latest
+    command: "true"
+    entrypoint: "true"

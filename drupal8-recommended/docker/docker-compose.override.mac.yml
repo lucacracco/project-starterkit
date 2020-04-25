@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+#  nginx:
+#    volumes:
+#      - "data:/var/www/html" # MacOs nfs version
+
+  apache:
+    volumes:
+      - "data:/var/www/html" # MacOs nfs version
+
+  php:
+    environment:
+      PHP_IDE_CONFIG: serverName=my-ide
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
+      # Read instructions at https://wodby.com/docs/stacks/php/local/#xdebug
+      #PHP_XDEBUG: 1
+      #PHP_XDEBUG_DEFAULT_ENABLE: 1
+      PHP_XDEBUG_REMOTE_AUTOSTART: 0
+      PHP_XDEBUG_REMOTE_CONNECT_BACK: 0
+      PHP_XDEBUG_REMOTE_HOST: host.docker.internal
+    volumes:
+      - "data:/var/www/html" # MacOs nfs version
+
+
+#  mariadb:
+#    # Expose port of database
+#    ports:
+#      - 3306:3306
+
+  traefik:
+    ports:
+      - '80:80'
+      - '8080:8080' # Dashboard
+
+# Enable this on MacOs after executing file-setup_native_nfs_docker_osx.sh
+volumes:
+  data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      ## TODO: update current path.
+      device: ":./"

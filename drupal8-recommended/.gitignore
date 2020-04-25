@@ -80,6 +80,7 @@ web/sites/*/services.yml
 # Ignore paths that contain user-generated content.
 web/sites/*/files
 web/websites/*/private
+/private/*
 
 # Ignore SimpleTest multi-site environment.
 web/sites/simpletest

@@ -71,6 +71,14 @@ composer:
 drush:
 	docker exec $(shell docker ps --filter name='^/$(PROJECT_NAME)_php' --format "{{ .ID }}") drush -r $(DRUPAL_ROOT) $(filter-out $@,$(MAKECMDGOALS))
 
+## exec	:	Executes command in container php.
+##		To use "--flag" arguments include them in quotation marks.
+##		For example: make exec "echo ciao!"
+.PHONY: exec
+exec:
+	docker exec -t $(shell docker ps --filter name='^/$(PROJECT_NAME)_php' --format "{{ .ID }}") $(filter-out $@,$(MAKECMDGOALS))
+
+
 ## logs	:	View containers logs.
 ##		You can optinally pass an argument with the service name to limit logs
 ##		logs php	: View `php` container logs.
@@ -78,6 +86,13 @@ drush:
 .PHONY: logs
 logs:
 	@docker-compose logs -f $(filter-out $@,$(MAKECMDGOALS))
+
+
+## analyze	:	Analyze code project.
+##		You can analyze code with custom docker container that use phpqa.
+.PHONY: analyze
+analyze:
+	docker run -it -u $$(id -u) --rm -v `pwd`/../:/app lucacracco/d8-phpqa phpqa --config=phpcs
 
 # https://stackoverflow.com/a/6273809/1826109
 %:

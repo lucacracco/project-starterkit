@@ -8,12 +8,13 @@
 class RoboFile extends \Robo\Tasks {
 
   /**
-   * Compute various metrics.
+   * Force use locale=it and account mail of wellnet for new installation.
    *
-   * @command analyze
+   * @hook init install
    */
-  public function analyze() {
-    return $this->taskExec('vendor/bin/phpqa');
+  public function initInstallCommand(\Symfony\Component\Console\Input\InputInterface $input, \Consolidation\AnnotatedCommand\AnnotationData $annotationData) {
+    $input->setOption('locale', 'it');
+    $input->setOption('mail', 'admin@localhost.loc');
   }
 
 }

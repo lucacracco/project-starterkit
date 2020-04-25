@@ -73,23 +73,3 @@ Temporary Items
 
 ### JetBrains
 .idea
-
-### Drupal8 Composer
-drupal8-composer/composer.lock
-drupal8-composer/docker
-drupal8-composer/phpcs
-drupal8-composer/reports
-drupal8-composer/web
-drupal8-composer/.editorconfig
-drupal8-composer/.gitattributes
-!drupal8-composer/web/modules/custom/module
-
-### Drupal8 Recommended
-drupal8-recommended/composer.lock
-drupal8-recommended/docker
-drupal8-recommended/phpcs
-drupal8-recommended/reports
-drupal8-recommended/web
-drupal8-recommended/.editorconfig
-drupal8-recommended/.gitattributes
-!/drupal8-recommended/web/modules/custom/module/
