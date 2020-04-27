@@ -1,4 +1,5 @@
 TARGET ?= drupal8-recommended
+TEST ?= drupal8
 
 ## help	:	Print commands help.
 .PHONY: help
@@ -56,9 +57,9 @@ pre-commit:
 .PHONY: test
 test:
 	make pre-commit $(TARGET)
-	cd ./tests/$(TARGET) && TARGET=$(TARGET) ./start.sh
-	cd ./tests/$(TARGET) && TARGET=$(TARGET) ./run.sh
-	cd ./tests/$(TARGET) && TARGET=$(TARGET) ./stop.sh
+	cd ./tests/$(TEST) && TARGET=$(TARGET) TEST=$(TEST) ./start.sh
+	cd ./tests/$(TEST) && TARGET=$(TARGET) TEST=$(TEST) ./run.sh
+	cd ./tests/$(TEST) && TARGET=$(TARGET) TEST=$(TEST) ./stop.sh
 
 
 # https://stackoverflow.com/a/6273809/1826109

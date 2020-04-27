@@ -6,9 +6,9 @@ services:
 script:
   - set -e
   - zip -r drupal8-composer drupal8-composer
-  - make test TARGET="drupal8-composer"
+  - make test TARGET="drupal8-composer" TEST="drupal8"
   - zip -r drupal8-recommended drupal8-recommended
-  - make test TARGET="drupal8-recommended"
+  - make test TARGET="drupal8-recommended" TEST="drupal8"
 
 deploy:
   provider: releases
