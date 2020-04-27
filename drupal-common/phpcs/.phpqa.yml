@@ -1,11 +1,12 @@
 phpqa:
+  # Directories to analyze.
   analyzedDirs: web/modules/custom
+  # Where place the reports.
   buildDir: reports
+  # Ignore dirs and files.
   ignoredDirs: node_modules
   ignoredFiles: ""
-  report: true
-  #verbose: true
-  # execution: no-parallel
+  # Tools.
   tools:
     - phploc
     - phpcpd
@@ -14,8 +15,10 @@ phpqa:
     - phpmd
     - phpmetrics
     - security-checker
+    # Require composer autoload. Active only if have installed libraries dependencies of project.
     - phpstan
     - psalm
+  # Extension.
   extensions:
     - php
     - inc
@@ -27,6 +30,10 @@ phpqa:
     - yml
     - css
     - js
+  # Configurations.
+  report: true
+  #verbose: true
+  #execution: no-parallel
 
 phpcs:
   # alternatively you can use an array to define multiple standards (https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage#specifying-a-coding-standard)

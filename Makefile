@@ -22,6 +22,7 @@ copy:
 	cp -TR drupal-common/docker/.env.dist $(TARGET)/docker/.env
 	cp -TR drupal-common/.gitignore $(TARGET)/.gitignore
 	cp -TR drupal-common/README.md $(TARGET)/README.md
+	cp -TR drupal-common/Robofile.php $(TARGET)/Robofile.php
 	cp -TR drupal-common/.htaccess $(TARGET)/config/default/sync/.htaccess
 	cp -TR drupal-common/examples/tpl.settings.php $(TARGET)/web/sites/default/tpl.settings.php
 	cp -TR drupal-common/examples/tpl.services.yml $(TARGET)/web/sites/default/tpl.services.yml
@@ -40,6 +41,7 @@ clear:
 	rm -rf $(TARGET)/web
 	rm -rf $(TARGET)/vendor
 # Remove files.
+	rm -f $(TARGET)/Robofile.php
 	rm -f $(TARGET)/composer.lock
 	rm -f $(TARGET)/.editorconfig
 	rm -f $(TARGET)/.gitattributes
