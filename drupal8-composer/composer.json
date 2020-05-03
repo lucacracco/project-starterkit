@@ -33,7 +33,9 @@
         "zaporylie/composer-drupal-optimizations": "^1.0"
     },
     "require-dev": {
-        "drupal/core-dev": "^8.8.0"
+        "drupal/core-dev": "^8.8.0",
+        "bex/behat-screenshot": "^2.1",
+        "drupal/drupal-extension": "^4.0"
     },
     "conflict": {
         "drupal/drupal": "*"

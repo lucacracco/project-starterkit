@@ -8,6 +8,7 @@ fi
 
 cd ../../${TARGET}
 cd docker
+cp .env.dist .env
 
 printf "\n\n Composer installation \n\n"
 make exec "composer prestissimo"
@@ -24,5 +25,7 @@ make exec "robo config:export"
 printf "\n\n"
 make exec "robo config:export"
 
+printf "\n\nRUN Behat tests\n\n"
+make exec "robo behat --tags success"
 printf "\n\nPhp Analyze\n\n"
 make analyze

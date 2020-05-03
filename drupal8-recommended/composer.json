@@ -28,6 +28,8 @@
         "lucacracco/robo-drupal": "dev-master"
     },
     "require-dev": {
+        "bex/behat-screenshot": "^2.1",
+        "drupal/drupal-extension": "^4.0"
     },
     "conflict": {
         "drupal/drupal": "*"

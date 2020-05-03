@@ -10,5 +10,5 @@ cd ../../${TARGET}
 cd docker
 
 printf "\n\n"
-make up
+make stop
 make prune

@@ -1,0 +1,28 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    Bex\Behat\ScreenshotExtension:
+      screenshot_taking_mode: failed_scenarios
+      image_drivers:
+        local:
+          screenshot_directory: ./../features/screenshots
+          clear_screenshot_directory: true  # Enable removing all images before each test run. It is false by default.
+    Drupal\MinkExtension:
+      goutte: ~
+      # Active chrome container in docker-compose for use selenium.
+      #selenium2:
+      #  wd_host: http://chrome:9515
+      #  capabilities: { 'chrome': {'switches':['--start-maximized','--disable-gpu','--headless']}}
+      base_url: http://apache
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drupal'
+      drupal:
+        drupal_root: './web'
