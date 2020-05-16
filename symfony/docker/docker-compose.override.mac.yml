@@ -1,0 +1,50 @@
+### THIS IS AN EXAMPLE OF OVERRIDE FOR DOCKER-COMPOSE (for MacOS)
+### Copy this code in your docker-compose.override.yml
+
+version: '3'
+
+services:
+
+  nginx:
+    volumes:
+      - "data:/var/www/html" # MacOs nfs version
+
+  apache:
+    volumes:
+      - "data:/var/www/html" # MacOs nfs version
+
+  php:
+    environment:
+## Read instructions at https://wodby.com/docs/stacks/php/local/#xdebug
+#      PHP_XDEBUG: 1
+#      PHP_XDEBUG_DEFAULT_ENABLE: 1
+#      PHP_XDEBUG_REMOTE_CONNECT_BACK: 0
+#      PHP_IDE_CONFIG: serverName=my-ide
+#      PHP_XDEBUG_IDEKEY: "my-ide"
+#      PHP_XDEBUG_REMOTE_HOST: host.docker.internal # Docker 18.03+ Mac/Win
+#      PHP_XDEBUG_REMOTE_HOST: 172.17.0.1 # Linux
+#      PHP_XDEBUG_REMOTE_HOST: 10.254.254.254 # macOS, Docker < 18.03
+#      PHP_XDEBUG_REMOTE_HOST: 10.0.75.1 # Windows, Docker < 18.03
+#      PHP_XDEBUG_REMOTE_LOG: /tmp/php-xdebug.log
+    volumes:
+      - "data:/var/www/html" # MacOs nfs version
+
+  mariadb:
+    # Expose port of database
+    ports:
+      - 3306:3306
+
+  traefik:
+    ports:
+      - '80:80'
+      - '8080:8080' # Dashboard
+
+# Enable this on MacOs after executing file-setup_native_nfs_docker_osx.sh
+volumes:
+  data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      ## TODO: update current path.
+      device: ":./"
