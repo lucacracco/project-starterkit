@@ -1,6 +1,4 @@
-![PROJECT](https://placeholder.com/200x100?text=Project+logo)
-
-[PROJECT NAME](https://github.com/lucacracco/project-starterkit)
+![PROJECT](https://via.placeholder.com/180x150.png?text=Project-logo)
 
 # Project name
 

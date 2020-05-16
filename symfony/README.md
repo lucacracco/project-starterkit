@@ -4,10 +4,10 @@
 
 # Project name
 
-> Ex. The project contains the company's website.
+> Ex. The project contains the something.
 
 ![LAMP](https://img.shields.io/badge/LAMP-Docker-blue)
-![Software](https://img.shields.io/badge/Software-Drupal8-blue)
+![Software](https://img.shields.io/badge/Software-Symfony-blue)
 
 ## Table of Contents
 
@@ -40,47 +40,6 @@
 
         composer prestissimo
         composer install --prefer-dist
-
-- Install Drupal and Project
-
-    Scratch:
-
-        robo scaffold
-        robo install standard
-
-    or from Database dump(.sql):
-
-        robo scaffold
-        robo install:database [path of .sql dump]
-
-### Update
-
-When you download a new code (pull from repository an updates), will run:
-
-* Update composer vendor:
-
-        composer prestissimo
-        composer install --prefer-dist
-
-* Update Drupal database:
-
-        robo scaffold
-        robo deploy
-
-## Features
-
-#### Export/import configuration
-
-* (With docker) Access container PHP:
-
-        cd docker
-        make up
-        make shell
-
-* Export/Import:
-
-        robo config:export
-        robo config:import
 
 ## FAQ
 
