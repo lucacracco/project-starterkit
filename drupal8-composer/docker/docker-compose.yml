@@ -20,7 +20,6 @@ services:
     environment:
       DRUPAL_ENV: $DRUPAL_ENV
       PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
-#      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S opensmtpd:25      
       DB_HOST: $DB_HOST
       DB_PORT: $DB_PORT
       DB_USER: $DB_USER
