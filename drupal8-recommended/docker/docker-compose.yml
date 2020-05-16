@@ -47,10 +47,9 @@ services:
 #      MINK_DRIVER_ARGS_WEBDRIVER: '["chrome", {"browserName":"chrome","goog:chromeOptions":{"args":["--disable-gpu","--headless"]}}, "http://chrome:9515"]'
 
     volumes:
-      - $PROJECT_DOCROOT:/var/www/html
-## For macOS users (https://wodby.com/docs/stacks/drupal/local#docker-for-mac)
-#      - $PROJECT_DOCROOT:/var/www/html:cached # User-guided caching
-#      - docker-sync:/var/www/html # Docker-sync
+      - $PROJECT_DOCROOT:/var/www/html:cached
+## Alternative for macOS users: docker-sync https://wodby.com/docs/stacks/drupal/local#docker-for-mac
+#      - docker-sync:/var/www/html
 ## For XHProf and Xdebug profiler traces
 #      - files:/mnt/files
 
@@ -67,10 +66,9 @@ services:
 #      NGINX_VHOST_PRESET: $NGINX_VHOST_PRESET
 ##      NGINX_DRUPAL_FILE_PROXY_URL: http://example.com
 #    volumes:
-#      - $PROJECT_DOCROOT:/var/www/html
-## For macOS users (https://wodby.com/docs/stacks/drupal/local#docker-for-mac)
-##      - $PROJECT_DOCROOT:/var/www/html:cached # User-guided caching
-##      - docker-sync:/var/www/html # Docker-sync
+#      - $PROJECT_DOCROOT:/var/www/html:cached
+## Alternative for macOS users: docker-sync https://wodby.com/docs/stacks/drupal/local#docker-for-mac
+##      - docker-sync:/var/www/html
 #    labels:
 #      - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
 
@@ -104,10 +102,9 @@ services:
       APACHE_VHOST_PRESET: php
       APACHE_DOCUMENT_ROOT: /var/www/html/web
     volumes:
-      - $PROJECT_DOCROOT:/var/www/html
-# For macOS users (https://wodby.com/docs/stacks/drupal/local#docker-for-mac)
-#      - $PROJECT_DOCROOT:/var/www/html:cached # User-guided caching
-#      - docker-sync:/var/www/html # Docker-sync
+      - $PROJECT_DOCROOT:/var/www/html:cached
+## Alternative for macOS users: docker-sync https://wodby.com/docs/stacks/drupal/local#docker-for-mac
+#      - docker-sync:/var/www/html
     labels:
       - "traefik.http.routers.${PROJECT_NAME}_apache.rule=Host(`${PROJECT_BASE_URL}`)"
 

@@ -27,6 +27,7 @@ copy:
 	cp -TR drupal-common/README.md $(TARGET)/README.md
 	cp -TR drupal-common/RoboFile.php $(TARGET)/RoboFile.php
 	cp -TR drupal-common/.htaccess $(TARGET)/config/default/sync/.htaccess
+	cp -TR drupal-common/docker/.env.dist $(TARGET)/docker/.env
 	cp -TR drupal-common/examples/tpl.settings.php $(TARGET)/web/sites/default/tpl.settings.php
 	cp -TR drupal-common/examples/tpl.services.yml $(TARGET)/web/sites/default/tpl.services.yml
 
