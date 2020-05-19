@@ -68,6 +68,12 @@ exec:
 logs:
 	@docker-compose logs -f $(filter-out $@,$(MAKECMDGOALS))
 
+## analyze	:	Analyze code project.
+##		You can analyze code with custom docker container that use phpqa.
+.PHONY: analyze
+analyze:
+	docker run -it -u $$(id -u) --rm -v `pwd`/../:/app lucacracco/phpqa phpqa --config=phpqa
+
 # https://stackoverflow.com/a/6273809/1826109
 %:
 	@:

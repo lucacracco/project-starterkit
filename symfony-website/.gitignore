@@ -85,3 +85,7 @@ Temporary Items
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+### Project
+/reports
+.php_cs.cache

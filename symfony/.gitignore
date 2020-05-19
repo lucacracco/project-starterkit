@@ -79,3 +79,7 @@ Temporary Items
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+### Project
+/reports
+.php_cs.cache
