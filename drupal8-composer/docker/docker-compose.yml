@@ -29,7 +29,7 @@ services:
       PHP_FPM_USER: wodby
       PHP_FPM_GROUP: wodby
       COLUMNS: 80 # Set 80 columns for docker exec -it.
-## Read instructions at https://wodby.com/docs/stacks/php/local/#xdebug
+#      # Read instructions at https://wodby.com/docs/stacks/php/local/#xdebug
 #      PHP_XDEBUG: 1
 #      PHP_XDEBUG_DEFAULT_ENABLE: 1
 #      PHP_XDEBUG_REMOTE_CONNECT_BACK: 0
@@ -40,17 +40,25 @@ services:
 #      PHP_XDEBUG_REMOTE_HOST: 10.254.254.254 # macOS, Docker < 18.03
 #      PHP_XDEBUG_REMOTE_HOST: 10.0.75.1 # Windows, Docker < 18.03
 #      PHP_XDEBUG_REMOTE_LOG: /tmp/php-xdebug.log
-## PHPUnit Drupal testing configurations
+#      # PHPUnit Drupal testing configurations
 #      SIMPLETEST_BASE_URL: "http://nginx"
 #      SIMPLETEST_DB: "${DB_DRIVER}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}#tests_"
 #      MINK_DRIVER_ARGS_WEBDRIVER: '["chrome", {"browserName":"chrome","goog:chromeOptions":{"args":["--disable-gpu","--headless"]}}, "http://chrome:9515"]'
-
     volumes:
       - $PROJECT_DOCROOT:/var/www/html:cached
-## Alternative for macOS users: docker-sync https://wodby.com/docs/stacks/drupal/local#docker-for-mac
+#      # Alternative for macOS users: docker-sync https://wodby.com/docs/stacks/drupal/local#docker-for-mac
 #      - docker-sync:/var/www/html
-## For XHProf and Xdebug profiler traces
+#      # For XHProf and Xdebug profiler traces
 #      - files:/mnt/files
+
+#  crond:
+#    image: wodby/drupal-php:$PHP_TAG
+#    container_name: "${PROJECT_NAME}_crond"
+#    environment:
+#      CRONTAB: "0 * * * * drush -r /var/www/html/web cron"
+#    command: sudo -E LD_PRELOAD=/usr/lib/preloadable_libiconv.so crond -f -d 0
+#    volumes:
+#      - ./:/var/www/html:cached
 
 #  nginx:
 #    image: wodby/nginx:$NGINX_TAG
@@ -63,11 +71,11 @@ services:
 #      NGINX_BACKEND_HOST: php
 #      NGINX_SERVER_ROOT: /var/www/html/web
 #      NGINX_VHOST_PRESET: $NGINX_VHOST_PRESET
-##      NGINX_DRUPAL_FILE_PROXY_URL: http://example.com
+#      #NGINX_DRUPAL_FILE_PROXY_URL: http://example.com
 #    volumes:
 #      - $PROJECT_DOCROOT:/var/www/html:cached
-## Alternative for macOS users: docker-sync https://wodby.com/docs/stacks/drupal/local#docker-for-mac
-##      - docker-sync:/var/www/html
+##    # Alternative for macOS users: docker-sync https://wodby.com/docs/stacks/drupal/local#docker-for-mac
+##     - docker-sync:/var/www/html
 #    labels:
 #      - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
 
@@ -102,7 +110,7 @@ services:
       APACHE_DOCUMENT_ROOT: /var/www/html/web
     volumes:
       - $PROJECT_DOCROOT:/var/www/html:cached
-## Alternative for macOS users: docker-sync https://wodby.com/docs/stacks/drupal/local#docker-for-mac
+#    # Alternative for macOS users: docker-sync https://wodby.com/docs/stacks/drupal/local#docker-for-mac
 #      - docker-sync:/var/www/html
     labels:
       - "traefik.http.routers.${PROJECT_NAME}_apache.rule=Host(`${PROJECT_BASE_URL}`)"
@@ -130,8 +138,8 @@ services:
 #    container_name: "${PROJECT_NAME}_adminer"
 #    image: wodby/adminer:$ADMINER_TAG
 #    environment:
-## For PostgreSQL:
-##      ADMINER_DEFAULT_DB_DRIVER: pgsql
+#      # For PostgreSQL:
+#      #ADMINER_DEFAULT_DB_DRIVER: pgsql
 #      ADMINER_DEFAULT_DB_HOST: $DB_HOST
 #      ADMINER_DEFAULT_DB_NAME: $DB_NAME
 #    labels:
@@ -155,6 +163,7 @@ services:
 #      SOLR_DEFAULT_CONFIG_SET: $SOLR_CONFIG_SET
 #      SOLR_HEAP: 1024m
 #    labels:
+#      - "traefik.http.services.${PROJECT_NAME}_solr.loadbalancer.server.port=8983"
 #      - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"
 
 #  drupal-node:

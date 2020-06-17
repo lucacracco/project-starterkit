@@ -10,6 +10,11 @@ help : Makefile
 test:
 	cd ./tests/$(TARGET) && TARGET=$(TARGET) ./tests.sh
 
+## clear :	Run clear.
+.PHONY: clear
+clear:
+	sudo git clean -fdx
+
 # https://stackoverflow.com/a/6273809/1826109
 %:
 	@:

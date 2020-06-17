@@ -22,10 +22,10 @@
     "require": {
         "php": ">=7.0.8",
         "composer/installers": "^1.2",
-        "cweagans/composer-patches": "^1.6.5",
+        "cweagans/composer-patches": "^1.6",
         "drupal/console": "^1.0.2",
-        "drupal/core": "^8.8.0",
-        "drupal/core-composer-scaffold": "^8.8.0",
+        "drupal/core": "^8.9.0",
+        "drupal/core-composer-scaffold": "^8.9.0",
         "drush/drush": "^9.7.1 | ^10.0.0",
         "lucacracco/robo-drupal": "dev-master",
         "vlucas/phpdotenv": "^4.0",
@@ -33,7 +33,7 @@
         "zaporylie/composer-drupal-optimizations": "^1.0"
     },
     "require-dev": {
-        "drupal/core-dev": "^8.8.0",
+        "drupal/core-dev": "^8.9.0",
         "bex/behat-screenshot": "^2.1",
         "drupal/drupal-extension": "^4.0"
     },
@@ -46,7 +46,7 @@
         "sort-packages": true
     },
     "scripts": {
-        "prestissimo":[
+        "prestissimo": [
             "composer global require hirak/prestissimo --prefer-dist"
         ],
         "nuke": [
@@ -66,12 +66,24 @@
             }
         },
         "installer-paths": {
-            "web/core": ["type:drupal-core"],
-            "web/libraries/{$name}": ["type:drupal-library"],
-            "web/modules/contrib/{$name}": ["type:drupal-module"],
-            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
-            "web/themes/contrib/{$name}": ["type:drupal-theme"],
-            "drush/Commands/contrib/{$name}": ["type:drupal-drush"]
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ]
         }
     }
 }
