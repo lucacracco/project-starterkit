@@ -12,10 +12,10 @@ class DefaultController extends ControllerBase {
   /**
    * Hello.
    *
-   * @return string
-   *   Return Hello string.
+   * @return array
+   *   Return Hello render array.
    */
-  public function hello($name) {
+  public function hello() {
     return [
       '#type' => 'markup',
       '#markup' => $this->t('Implement method: hello with parameter(s): $name'),

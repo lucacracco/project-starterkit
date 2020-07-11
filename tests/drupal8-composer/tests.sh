@@ -7,6 +7,7 @@ if [[ -n "${DEBUG}" ]]; then
 fi
 
 cd ../../${TARGET}
+chmod 775 web/sites/default -R
 cd docker
 cp .env.dist .env
 
