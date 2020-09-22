@@ -1,7 +1,7 @@
 ### THIS IS AN EXAMPLE OF OVERRIDE FOR DOCKER-COMPOSE (for Linux)
 ### Copy this code in your docker-compose.override.yml
 
-version: "3"
+version: "3.7"
 
 services:
 
