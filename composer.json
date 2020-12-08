@@ -1,0 +1,97 @@
+{
+  "name": "lucacracco/project-starterkit",
+  "description": "Project template custom for Drupal 8 projects",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/lucacracco/robo-drupal.git"
+    }
+  ],
+  "require": {
+    "php": "^7.3",
+    "composer/installers": "^1.2",
+    "drupal/console": "^1.0.2",
+    "drupal/core-composer-scaffold": "^8.9",
+    "drupal/core-project-message": "^8.9",
+    "drupal/core-recommended": "^8.9",
+    "drush/drush": "^9.7.1 | ^10.0.0",
+    "lucacracco/robo-drupal": "dev-master"
+  },
+  "require-dev": {
+    "drupal/core-dev": "^8.9",
+    "drupal/drupal-extension": "^4.0",
+    "bex/behat-screenshot": "^2.1"
+  },
+  "conflict": {
+    "drupal/drupal": "*"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "prestissimo": [
+      "composer global require hirak/prestissimo --prefer-dist"
+    ],
+    "nuke": [
+      "rm -rf vendor web/core web/modules/contrib web/profiles/contrib web/themes/contrib",
+      "@composer clearcache --ansi",
+      "@composer install --ansi --no-interaction --prefer-dist"
+    ]
+  },
+  "extra": {
+    "drupal-scaffold": {
+      "locations": {
+        "web-root": "web/"
+      }
+    },
+    "installer-paths": {
+      "web/core": [
+        "type:drupal-core"
+      ],
+      "web/libraries/{$name}": [
+        "type:drupal-library"
+      ],
+      "web/modules/contrib/{$name}": [
+        "type:drupal-module"
+      ],
+      "web/profiles/contrib/{$name}": [
+        "type:drupal-profile"
+      ],
+      "web/themes/contrib/{$name}": [
+        "type:drupal-theme"
+      ],
+      "drush/Commands/contrib/{$name}": [
+        "type:drupal-drush"
+      ],
+      "web/modules/custom/{$name}": [
+        "type:drupal-custom-module"
+      ],
+      "web/themes/custom/{$name}": [
+        "type:drupal-custom-theme"
+      ]
+    }
+  },
+  "drupal-core-project-message": {
+    "include-keys": [
+      "homepage",
+      "support"
+    ],
+    "post-create-project-cmd-message": [
+      "<bg=blue;fg=white>                                                         </>",
+      "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
+      "<bg=blue;fg=white>                                                         </>",
+      "",
+      "<bg=yellow;fg=black>Next steps</>:",
+      "  * Prepare files: `robo scaffold` ",
+      "  * Install the site: `robo install standard` "
+    ]
+  }
+}
