@@ -16,6 +16,7 @@
   "require": {
     "php": "^7.3",
     "composer/installers": "^1.2",
+    "cweagans/composer-patches": "^1.7",
     "drupal/console": "^1.0.2",
     "drupal/core-composer-scaffold": "^8.9",
     "drupal/core-project-message": "^8.9",
@@ -44,6 +45,9 @@
       "rm -rf vendor web/core web/modules/contrib web/profiles/contrib web/themes/contrib",
       "@composer clearcache --ansi",
       "@composer install --ansi --no-interaction --prefer-dist"
+    ],
+    "post-install-cmd": [
+      "cp -p .docker/.env.dist .docker/.env"
     ]
   },
   "extra": {
@@ -77,6 +81,12 @@
       "web/themes/custom/{$name}": [
         "type:drupal-custom-theme"
       ]
+    },
+    "composer-exit-on-patch-failure": true,
+    "patchLevel": {
+      "drupal/core": "-p2"
+    },
+    "patches": {
     }
   },
   "drupal-core-project-message": {
@@ -90,6 +100,8 @@
       "<bg=blue;fg=white>                                                         </>",
       "",
       "<bg=yellow;fg=black>Next steps</>:",
+      "  * update .env file of Docker ",
+      "  * launch local stack: `cd .docker; make up; make shell` ",
       "  * Prepare files: `robo scaffold` ",
       "  * Install the site: `robo install standard` "
     ]
