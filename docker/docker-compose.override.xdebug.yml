@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+
+  php:
+    environment:
+      # Read instructions at https://wodby.com/docs/stacks/php/local/#xdebug
+      PHP_XDEBUG: 1
+      PHP_XDEBUG_DEFAULT_ENABLE: 1
+      PHP_XDEBUG_REMOTE_CONNECT_BACK: 1
+      PHP_XDEBUG_REMOTE_AUTOSTART: 0
+#      PHP_IDE_CONFIG: serverName=phpstorm
+#      PHP_XDEBUG_IDEKEY: "my-ide"
+#      PHP_XDEBUG_REMOTE_HOST: host.docker.internal # Docker 18.03+ Mac/Win
+#      PHP_XDEBUG_REMOTE_HOST: 172.17.0.1 # Linux
+#      PHP_XDEBUG_REMOTE_HOST: 10.254.254.254 # macOS, Docker < 18.03
+#      PHP_XDEBUG_REMOTE_HOST: 10.0.75.1 # Windows, Docker < 18.03
+#      PHP_XDEBUG_REMOTE_LOG: /tmp/php-xdebug.log
