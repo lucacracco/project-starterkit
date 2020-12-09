@@ -7,10 +7,6 @@
     {
       "type": "composer",
       "url": "https://packages.drupal.org/8"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/lucacracco/robo-drupal.git"
     }
   ],
   "require": {
@@ -22,7 +18,7 @@
     "drupal/core-project-message": "^8.9",
     "drupal/core-recommended": "^8.9",
     "drush/drush": "^9.7.1 | ^10.0.0",
-    "lucacracco/robo-drupal": "dev-master"
+    "lucacracco/robo-drupal": "^1.0"
   },
   "require-dev": {
     "drupal/core-dev": "^8.9",
