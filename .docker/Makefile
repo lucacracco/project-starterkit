@@ -95,6 +95,13 @@ composer:
 drush:
 	docker exec $(shell docker ps --filter name='^/$(PROJECT_NAME)_php' --format "{{ .ID }}") drush -r $(DRUPAL_ROOT) $(filter-out $@,$(MAKECMDGOALS))
 
+## analyze	:	Analyze code project.
+##		You can analyze code with custom docker container that use phpqa.
+.PHONY: analyze
+analyze:
+	docker run -it -u $$(id -u) --rm -v `pwd`/../:/app lucacracco/phpqa:latest bash -c "phpqa --config=.phpqa"
+	@echo "Report created: file://$(PWD)/../reports/phpqa.html"
+
 ## logs	:	View containers logs.
 ##		You can optinally pass an argument with the service name to limit logs
 ##		logs php	: View `php` container logs.
