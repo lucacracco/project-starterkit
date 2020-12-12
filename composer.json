@@ -43,7 +43,7 @@
       "@composer install --ansi --no-interaction --prefer-dist"
     ],
     "post-create-project-cmd": [
-      "cp -p .docker/.env.dist .docker/.env"
+      "php -r \"copy('.docker/.env.dist', '.docker/.env');\""
     ]
   },
   "extra": {
@@ -92,9 +92,9 @@
         "",
         "<bg=yellow;fg=black>Next steps</>:",
         "  * update .env file of Docker ",
-        "  * launch local stack: `cd .docker; make up; make shell` ",
-        "  * Prepare files: `robo scaffold` ",
-        "  * Install the site: `robo install standard` "
+        "  * launch local stack: <bg=magenta;fg=black>cd .docker; make up; make shell</> ",
+        "  * Prepare files: <bg=magenta;fg=black>robo scaffold</> ",
+        "  * Install the site: <bg=magenta;fg=black>robo install standard</> "
       ]
     }
   }
