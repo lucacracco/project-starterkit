@@ -42,7 +42,7 @@
       "@composer clearcache --ansi",
       "@composer install --ansi --no-interaction --prefer-dist"
     ],
-    "post-install-cmd": [
+    "post-create-project-cmd": [
       "cp -p .docker/.env.dist .docker/.env"
     ]
   },
@@ -83,19 +83,19 @@
       "drupal/core": "-p2"
     },
     "patches": {
+    },
+    "drupal-core-project-message": {
+      "post-create-project-cmd-message": [
+        "<bg=blue;fg=white>                                                         </>",
+        "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
+        "<bg=blue;fg=white>                                                         </>",
+        "",
+        "<bg=yellow;fg=black>Next steps</>:",
+        "  * update .env file of Docker ",
+        "  * launch local stack: `cd .docker; make up; make shell` ",
+        "  * Prepare files: `robo scaffold` ",
+        "  * Install the site: `robo install standard` "
+      ]
     }
-  },
-  "drupal-core-project-message": {
-    "post-create-project-cmd-message": [
-      "<bg=blue;fg=white>                                                         </>",
-      "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
-      "<bg=blue;fg=white>                                                         </>",
-      "",
-      "<bg=yellow;fg=black>Next steps</>:",
-      "  * update .env file of Docker ",
-      "  * launch local stack: `cd .docker; make up; make shell` ",
-      "  * Prepare files: `robo scaffold` ",
-      "  * Install the site: `robo install standard` "
-    ]
   }
 }
