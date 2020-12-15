@@ -11,5 +11,6 @@ parameters:
   drupal:
     drupal_root: %currentWorkingDirectory%/web
 includes:
+    # TODO: update with path where found the extensions.
     - /tmp/vendor/mglaman/phpstan-drupal/extension.neon
     - /tmp/vendor/phpstan/phpstan-deprecation-rules/rules.neon

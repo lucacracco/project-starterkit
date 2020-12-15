@@ -1,8 +1,8 @@
 phpqa:
   analyzedDirs: ./web/modules/custom
   buildDir: reports
-  ignoredDirs: vendor,contrib,sites,tests,node_modules
-  ignoredFiles: "*.css,*.md,*.txt,*.info,*.yml"
+  ignoredDirs: tests,node_modules
+  ignoredFiles: ""
   report: true
   # verbose: true
   # execution: no-parallel
@@ -47,7 +47,6 @@ phpmd:
 
 phpstan:
   level: 3
-  # https://github.com/phpstan/phpstan#configuration
   standard: phpstan.neon
 
 phpcpd:
