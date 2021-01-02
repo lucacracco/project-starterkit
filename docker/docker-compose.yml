@@ -51,14 +51,14 @@ services:
 ## For XHProf and Xdebug profiler traces
 #    - files:/mnt/files
 
-  crond:
-    image: wodby/drupal-php:$PHP_TAG
-    container_name: "${PROJECT_NAME}_crond"
-    environment:
-      CRONTAB: "0 * * * * drush -r /var/www/html/web cron"
-    command: sudo -E LD_PRELOAD=/usr/lib/preloadable_libiconv.so crond -f -d 0
-    volumes:
-    - $PROJECT_DOCROOT:/var/www/html:cached
+#  crond:
+#    image: wodby/drupal-php:$PHP_TAG
+#    container_name: "${PROJECT_NAME}_crond"
+#    environment:
+#      CRONTAB: "0 * * * * drush -r /var/www/html/web cron"
+#    command: sudo -E LD_PRELOAD=/usr/lib/preloadable_libiconv.so crond -f -d 0
+#    volumes:
+#    - $PROJECT_DOCROOT:/var/www/html:cached
 
 #  nginx:
 #    image: wodby/nginx:$NGINX_TAG
