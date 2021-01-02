@@ -5,7 +5,9 @@ namespace Drupal\module\Controller;
 use Drupal\Core\Controller\ControllerBase;
 
 /**
- * Class DefaultController.
+ * An example of controller.
+ *
+ * @package Drupal\module\Controller
  */
 class DefaultController extends ControllerBase {
 

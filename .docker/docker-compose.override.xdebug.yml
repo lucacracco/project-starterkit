@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 services:
 
@@ -9,7 +9,7 @@ services:
       PHP_XDEBUG_DEFAULT_ENABLE: 1
       PHP_XDEBUG_REMOTE_CONNECT_BACK: 1
       PHP_XDEBUG_REMOTE_AUTOSTART: 0
-#      PHP_IDE_CONFIG: serverName=phpstorm
+      PHP_IDE_CONFIG: serverName=phpstorm
 #      PHP_XDEBUG_IDEKEY: "my-ide"
 #      PHP_XDEBUG_REMOTE_HOST: host.docker.internal # Docker 18.03+ Mac/Win
 #      PHP_XDEBUG_REMOTE_HOST: 172.17.0.1 # Linux

@@ -14,9 +14,9 @@ phpqa:
     - pdepend
     - phpcpd
     - security-checker
-    # Require composer autoload. Active only if have installed libraries dependencies of project.
-#    - phpstan
-#    - psalm
+#    # Require composer autoload. Active only if have installed libraries dependencies of project.
+    - phpstan
+    - psalm
   extensions:
     - php
     - inc
@@ -30,7 +30,7 @@ phpqa:
     - md
 
 phpcs:
-  standard: Drupal
+  standard: .phpcs.xml
   ignoreWarnings: true
   # https://github.com/squizlabs/PHP_CodeSniffer/wiki/Reporting
   reports:
