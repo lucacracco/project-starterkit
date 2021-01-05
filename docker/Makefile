@@ -4,24 +4,6 @@ default: up
 
 COMPOSER_ROOT ?= /var/www/html
 DRUPAL_ROOT ?= /var/www/html/web
-STACK = -f docker-compose.yml
-
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),Darwin)
-	STACK := $(STACK) -f docker-compose.override.mac.yml
-endif
-
-ifeq ($(TRAEFIK),OFF)
-	STACK := $(STACK) -f docker-compose.override.traefik.yml
-endif
-
-ifeq ($(XDEBUG),ON)
-	STACK := $(STACK) -f docker-compose.override.xdebug.yml
-endif
-
-ifneq ("$(wildcard docker-compose.override.yml)","")
-    STACK := $(STACK) -f docker-compose.override.yml
-endif
 
 ## help	:	Print commands help.
 .PHONY: help
@@ -37,12 +19,12 @@ endif
 .PHONY: up
 up:
 	@echo "Starting up containers for $(PROJECT_NAME)..."
-	docker-compose $(STACK) pull
-	docker-compose $(STACK) up -d --remove-orphans
+	docker-compose pull
+	docker-compose up -d --remove-orphans
 
 .PHONY: mutagen
 mutagen:
-	docker-compose $(STACK) up -d mutagen
+	docker-compose up -d mutagen
 	mutagen project start -f mutagen/config.yml
 
 ## down	:	Stop containers.
@@ -53,13 +35,13 @@ down: stop
 .PHONY: start
 start:
 	@echo "Starting containers for $(PROJECT_NAME) from where you left off..."
-	@docker-compose $(STACK) start
+	@docker-compose start
 
 ## stop	:	Stop containers.
 .PHONY: stop
 stop:
 	@echo "Stopping containers for $(PROJECT_NAME)..."
-	@docker-compose $(STACK) stop
+	@docker-compose stop
 
 ## prune	:	Remove containers and their volumes.
 ##		You can optionally pass an argument with the service name to prune single container
@@ -68,7 +50,7 @@ stop:
 .PHONY: prune
 prune:
 	@echo "Removing containers for $(PROJECT_NAME)..."
-	@docker-compose $(STACK) down -v $(filter-out $@,$(MAKECMDGOALS))
+	@docker-compose down -v $(filter-out $@,$(MAKECMDGOALS))
 
 ## ps	:	List running containers.
 .PHONY: ps
@@ -108,7 +90,7 @@ analyze:
 ##		logs nginx php	: View `nginx` and `php` containers logs.
 .PHONY: logs
 logs:
-	@docker-compose $(STACK) logs -f $(filter-out $@,$(MAKECMDGOALS))
+	@docker-compose logs -f $(filter-out $@,$(MAKECMDGOALS))
 
 # https://stackoverflow.com/a/6273809/1826109
 %:
