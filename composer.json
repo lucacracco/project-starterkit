@@ -47,6 +47,11 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "nuke": [
+            "rm -rf vendor var/cache",
+            "@composer clearcache --ansi",
+            "@composer install --ansi --no-interaction --prefer-dist"
         ]
     },
     "conflict": {
