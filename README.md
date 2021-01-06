@@ -1,7 +1,3 @@
-![PROJECT](https://placeholder.com/200x100?text=Project+logo)
-
-[PROJECT NAME](https://github.com/lucacracco/project-starterkit)
-
 # Project name
 
 > Ex. The project contains the company's website.
@@ -19,39 +15,56 @@
 
 ## Installation
 
+### Create new project
+
+```shell
+composer create-project lucacracco/project-starterkit:dev-drupal-8.x my-folder
+```
+
+Proceed to step [Setup (with docker)](#setup-with-docker).
+
 ### Clone
 
-- Clone this repo to your local machine using: `git clone git@...`
+Clone this repo to your local machine using: `git clone git@...`
 
 ### Setup (with docker)
 
 - Clone the `docker/.env.dist` file to `docker/.env`
 
-- Customize the `docker/.env` file with your parameters (see [Readme.md of docker](./docker/README.md))
+- Customize the `docker/.env` file with your parameters
+
+- Customize the stack for your host/OS (_MAC users see this [instructions](https://wodby.com/docs/1.0/stacks/drupal/local/#docker-for-mac)_)
 
 - Run docker and access to container PHP:
 
-        cd docker
-        make up && make shell
+```shell
+cd docker
+make up && make shell
+```
 
 ### Install
 
 - Download libraries with `composer`:
 
-        composer prestissimo
-        composer install --prefer-dist
+  ```shell
+  composer install --prefer-dist
+  ```
 
 - Install Drupal and Project
 
-    Scratch:
+  Scratch:
 
-        robo scaffold
-        robo install standard
+  ```shell
+  robo scaffold
+  robo install standard
+  ```
 
-    or from Database dump(.sql):
+  or from Database dump(.sql):
 
-        robo scaffold
-        robo install:database [path of .sql dump]
+  ```shell
+  robo scaffold
+  robo install:database [path of .sql dump]
+  ```
 
 ### Update
 
@@ -59,30 +72,31 @@ When you download a new code (pull from repository an updates), will run:
 
 * Update composer vendor:
 
-        composer prestissimo
-        composer install --prefer-dist
+  ```shell
+  composer install --prefer-dist
+  ```
 
 * Update Drupal database:
 
-        robo scaffold
-        robo deploy
+  ```shell
+  robo scaffold
+  robo deploy
+  ```
 
 ## Features
 
 #### Export/import configuration
 
-* (With docker) Access container PHP:
+_(run commands inside the container PHP)_
 
-        cd docker
-        make up
-        make shell
-
-* Export/Import:
-
-        robo config:export
-        robo config:import
+```shell
+robo config:export
+robo config:import
+```
 
 ## FAQ
 
 - **How do I do *specifically* so and so?**
     - No problem! Just do this.
+_ **Permission issues?**
+    - See [https://wodby.com/docs/1.0/stacks/drupal/local/#permissions-issues](https://wodby.com/docs/1.0/stacks/drupal/local/#permissions-issues)
