@@ -75,9 +75,8 @@ services:
 #    - $PROJECT_DOCROOT:/var/www/html:cached
 ### Alternative for macOS users: Mutagen https://wodby.com/docs/stacks/drupal/local#docker-for-mac
 ##    - mutagen:/var/www/html
-
-    labels:
-    - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
+#    labels:
+#    - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
 
   mailhog:
     image: mailhog/mailhog
@@ -114,8 +113,8 @@ services:
     - $PROJECT_DOCROOT:/var/www/html:cached
 # Alternative for macOS users: Mutagen https://wodby.com/docs/stacks/drupal/local#docker-for-mac
 #    - mutagen:/var/www/html
-#    labels:
-#    - "traefik.http.routers.${PROJECT_NAME}_apache.rule=Host(`${PROJECT_BASE_URL}`)"
+    labels:
+    - "traefik.http.routers.${PROJECT_NAME}_apache.rule=Host(`${PROJECT_BASE_URL}`)"
 
 #  varnish:
 #    image: wodby/varnish:$VARNISH_TAG
@@ -270,22 +269,13 @@ services:
 #    - "--verbose"
 #    - "--whitelisted-ips="
 
-  portainer:
-    image: portainer/portainer
-    container_name: "${PROJECT_NAME}_portainer"
-    command: --no-auth -H unix:///var/run/docker.sock
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    labels:
-    - "traefik.http.routers.${PROJECT_NAME}_portainer.rule=Host(`portainer.${PROJECT_BASE_URL}`)"
-
   traefik:
     image: traefik:v2.0
     container_name: "${PROJECT_NAME}_traefik"
     command: --api.insecure=true --providers.docker
     ports:
-    - '8000:80'
-#    - '8080:8080' # Dashboard
+    - '80:80'
+    - '8080:8080' # Dashboard
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
