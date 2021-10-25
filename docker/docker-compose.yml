@@ -13,6 +13,10 @@ services:
 #    volumes:
 #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here.
 #      - /path/to/mariadb/data/on/host:/var/lib/mysql # Use bind mount
+    labels:
+    - "traefik.tcp.routers.${PROJECT_NAME}_mariadb.rule=HostSNI(`*`)"
+    - "traefik.tcp.services.${PROJECT_NAME}_mariadb.loadbalancer.server.port=3306"
+    - "traefik.tcp.routers.${PROJECT_NAME}_mariadb.entrypoints=mysql"
 
   php:
     image: wodby/drupal-php:$PHP_TAG
@@ -30,18 +34,19 @@ services:
       PHP_FPM_GROUP: wodby
       COLUMNS: 80 # Set 80 columns for docker exec -it.
 #      # Read instructions at https://wodby.com/docs/stacks/php/local/#xdebug
-#      PHP_XDEBUG: 1
+      PHP_XDEBUG: 1
 #      PHP_XDEBUG_MODE: debug
+      PHP_XDEBUG_MODE: coverage
 #      PHP_IDE_CONFIG: serverName=my-ide
 #      PHP_XDEBUG_IDEKEY: "my-ide"
 #      PHP_XDEBUG_CLIENT_HOST: 172.17.0.1 # Linux
 #      PHP_XDEBUG_CLIENT_HOST: host.docker.internal # Docker 18.03+ Mac/Win
 #      PHP_XDEBUG_CLIENT_HOST: 10.0.75.1 # Windows, Docker < 18.03
 #      PHP_XDEBUG_LOG: /tmp/php-xdebug.log
-#      # PHPUnit Drupal testing configurations
-#      SIMPLETEST_BASE_URL: "http://nginx"
-#      SIMPLETEST_DB: "${DB_DRIVER}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}#tests_"
-#      MINK_DRIVER_ARGS_WEBDRIVER: '["chrome", {"browserName":"chrome","goog:chromeOptions":{"args":["--disable-gpu","--headless"]}}, "http://chrome:9515"]'
+      # PHPUnit Drupal testing configurations
+      SIMPLETEST_BASE_URL: "http://apache"
+      SIMPLETEST_DB: "${DB_DRIVER}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}#tests_"
+      MINK_DRIVER_ARGS_WEBDRIVER: '["chrome", {"browserName":"chrome","goog:chromeOptions":{"args":["--disable-gpu","--headless","--no-sandbox","--disable-dev-shm-usage"]}}, "http://chrome:9515"]'
     volumes:
     - $PROJECT_DOCROOT:/var/www/html:cached
 ## Alternative for macOS users: Mutagen https://wodby.com/docs/stacks/drupal/local#docker-for-mac
@@ -77,6 +82,7 @@ services:
 ##    - mutagen:/var/www/html
 #    labels:
 #    - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
+#    - "traefik.http.routers.${PROJECT_NAME}_nginx.entrypoints=web"
 
   mailhog:
     image: mailhog/mailhog
@@ -84,6 +90,7 @@ services:
     labels:
     - "traefik.http.services.${PROJECT_NAME}_mailhog.loadbalancer.server.port=8025"
     - "traefik.http.routers.${PROJECT_NAME}_mailhog.rule=Host(`mailhog.${PROJECT_BASE_URL}`)"
+    - "traefik.http.routers.${PROJECT_NAME}_mailhog.entrypoints=web"
 
 #  postgres:
 #    image: wodby/postgres:$POSTGRES_TAG
@@ -115,6 +122,7 @@ services:
 #    - mutagen:/var/www/html
     labels:
     - "traefik.http.routers.${PROJECT_NAME}_apache.rule=Host(`${PROJECT_BASE_URL}`)"
+    - "traefik.http.routers.${PROJECT_NAME}_apache.entrypoints=web"
 
 #  varnish:
 #    image: wodby/varnish:$VARNISH_TAG
@@ -130,6 +138,7 @@ services:
 #    labels:
 #    - "traefik.http.services.${PROJECT_NAME}_varnish.loadbalancer.server.port=6081"
 #    - "traefik.http.routers.${PROJECT_NAME}_varnish.rule=Host(`varnish.${PROJECT_BASE_URL}`)"
+#    - "traefik.http.routers.${PROJECT_NAME}_varnish.entrypoints=web"
 
 #  redis:
 #    container_name: "${PROJECT_NAME}_redis"
@@ -145,6 +154,7 @@ services:
 #      ADMINER_DEFAULT_DB_NAME: $DB_NAME
 #    labels:
 #    - "traefik.http.routers.${PROJECT_NAME}_adminer.rule=Host(`adminer.${PROJECT_BASE_URL}`)"
+#    - "traefik.http.routers.${PROJECT_NAME}_adminer.entrypoints=web"
 
 #  pma:
 #    image: phpmyadmin/phpmyadmin
@@ -156,6 +166,7 @@ services:
 #      UPLOAD_LIMIT: 1G
 #    labels:
 #    - "traefik.http.routers.${PROJECT_NAME}_pma.rule=Host(`pma.${PROJECT_BASE_URL}`)"
+#    - "traefik.http.routers.${PROJECT_NAME}_pma.entrypoints=web"
 
 #  solr:
 #    image: wodby/solr:$SOLR_TAG
@@ -166,6 +177,7 @@ services:
 #    labels:
 #    - "traefik.http.services.${PROJECT_NAME}_solr.loadbalancer.server.port=8983"
 #    - "traefik.http.routers.${PROJECT_NAME}_solr.rule=Host(`solr.${PROJECT_BASE_URL}`)"
+#    - "traefik.http.routers.${PROJECT_NAME}_solr.entrypoints=web"
 
 #  drupal-node:
 #    image: wodby/drupal-node:$DRUPAL_NODE_TAG
@@ -201,6 +213,7 @@ services:
 #    labels:
 #    - "traefik.http.services.${PROJECT_NAME}_node.loadbalancer.server.port=3000"
 #    - "traefik.http.routers.${PROJECT_NAME}_node.rule=Host(`node.${PROJECT_BASE_URL}`)"
+#    - "traefik.http.routers.${PROJECT_NAME}_node.entrypoints=web"
 #    expose:
 #    - "3000"
 #    volumes:
@@ -221,6 +234,7 @@ services:
 #      WEBGRIND_PROFILER_DIR: /mnt/files/xdebug
 #    labels:
 #    - "traefik.http.routers.${PROJECT_NAME}_webgrind.rule=Host(`webgrind.${PROJECT_BASE_URL}`)"
+#    - "traefik.http.routers.${PROJECT_NAME}_webgrind.entrypoints=web"
 #    volumes:
 #    - files:/mnt/files
 
@@ -242,6 +256,7 @@ services:
 #    labels:
 #    - "traefik.http.services.${PROJECT_NAME}_kibana.loadbalancer.server.port=5601"
 #    - "traefik.http.routers.${PROJECT_NAME}_kibana.rule=Host(`kibana.${PROJECT_BASE_URL}`)"
+#    - "traefik.http.routers.${PROJECT_NAME}_kibana.entrypoints=web"
 
 #  opensmtpd:
 #    container_name: "${PROJECT_NAME}_opensmtpd"
@@ -255,29 +270,37 @@ services:
 #    - files:/mnt/files
 #    labels:
 #    - "traefik.http.routers.${PROJECT_NAME}_xhprof.rule=Host(`xhprof.${PROJECT_BASE_URL}`)"
+#    - "traefik.http.routers.${PROJECT_NAME}_xhprof.entrypoints=web"
 
-#  chrome:
-#    image: selenium/standalone-chrome:$SELENIUM_CHROME_TAG
-#    container_name: "${PROJECT_NAME}_chrome"
-#    volumes:
-#    - /dev/shm:/dev/shm
-#    entrypoint:
-#    - chromedriver
-#    - "--no-sandbox"
-#    - "--disable-dev-shm-usage"
-#    - "--log-path=/tmp/chromedriver.log"
-#    - "--verbose"
-#    - "--whitelisted-ips="
+  chrome:
+    image: selenium/standalone-chrome:$SELENIUM_CHROME_TAG
+    container_name: "${PROJECT_NAME}_chrome"
+    volumes:
+    - /dev/shm:/dev/shm
+    entrypoint:
+    - chromedriver
+    - "--no-sandbox"
+    - "--disable-dev-shm-usage"
+    - "--log-path=/tmp/chromedriver.log"
+    - "--verbose"
+    - "--allowed-origins='*'"
+    - "--whitelisted-ips"
 
   traefik:
     image: traefik:v2.0
     container_name: "${PROJECT_NAME}_traefik"
-    command: --api.insecure=true --providers.docker
+    command:
+    - "--log.level=DEBUG"
+    - "--api.insecure=true"
+    - "--providers.docker=true"
+    - "--entrypoints.web.address=:80"
+    - "--entrypoints.mysql.address=:3306"
     ports:
     - '80:80'
+    - "3306:3306"
     - '8080:8080' # Dashboard
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    - /var/run/docker.sock:/var/run/docker.sock
 
 #  mutagen:
 #    build:

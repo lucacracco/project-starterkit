@@ -34,22 +34,24 @@
     "sort-packages": true
   },
   "scripts": {
-    "prestissimo": [
-      "composer global require hirak/prestissimo --prefer-dist"
-    ],
     "nuke": [
       "rm -rf vendor web/core web/modules/contrib web/profiles/contrib web/themes/contrib",
       "@composer clearcache --ansi",
       "@composer install --ansi --no-interaction --prefer-dist"
     ],
     "post-create-project-cmd": [
-      "php -r \"copy('docker/.env.dist', 'docker/.env');\""
+      "php -r \"copy('docker/.env.dist', 'docker/.env');\"",
+      "mkdir ./private",
+      "mkdir ./logs"
     ]
   },
   "extra": {
     "drupal-scaffold": {
       "locations": {
         "web-root": "web/"
+      },
+      "file-mapping": {
+        "[web-root]/sites/development.services.yml": false
       }
     },
     "installer-paths": {

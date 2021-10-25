@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Dummy module for test.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ *
+ * Base implements for a drupal module.
+ */
+function my_module_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the my_module module.
+    case 'help.page.my_module_help':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Demonstrates custom module implementation.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+

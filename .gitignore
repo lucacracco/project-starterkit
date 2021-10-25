@@ -81,6 +81,7 @@ web/sites/*/services.yml
 web/sites/*/files
 web/websites/*/private
 /private/*
+/logs/*
 
 # Ignore SimpleTest multi-site environment.
 web/sites/simpletest

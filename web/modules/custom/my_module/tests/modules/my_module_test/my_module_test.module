@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Implements my_module_test module.
+ */
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_view().
+ *
+ * We'll just add some content to nodes of the type we like.
+ *
+ * @ingroup my_module
+ */
+function my_module_test_node_view(
+  array &$build,
+  EntityInterface $node,
+  EntityViewDisplayInterface $display,
+  $view_mode) {
+  if ($node->getType() == 'my_module') {
+    $build['simpletest_example_test_section'] = [
+      '#markup' => t('The test module did its thing.'),
+      '#weight' => -99,
+    ];
+  }
+}
