@@ -1,0 +1,11 @@
+#!/bin/bash
+
+## #ddev-generated
+## Description: Deploy Drupal
+## Usage: deploy
+## Example: "ddev deploy"
+## ProjectTypes: drupal7,drupal8,drupal9,backdrop
+
+drush updb -y
+drush cim -y
+drush cr

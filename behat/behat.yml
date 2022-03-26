@@ -20,7 +20,7 @@ default:
       #selenium2:
       #  wd_host: http://chrome:9515
       #  capabilities: { 'chrome': {'switches':['--start-maximized','--disable-gpu','--headless']}}
-      base_url: http://apache
+      base_url: http://web
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drupal'

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+## Description: Run PHPUnit
+## Usage: phpunit [flags] [args]
+## Example: "ddev phpunit --group big_pipe" or "ddev phpunit core/modules/action"
+## ProjectTypes: drupal7,drupal8,drupal9,backdrop
+
+mkdir -p sites/simpletest/browser_output
+chmod -R 777 sites/simpletest/browser_output
+
+php ./vendor/bin/phpunit -c phpunit.xml.dist $@

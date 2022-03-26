@@ -1,0 +1,8 @@
+#!/bin/bash
+
+## Description: Run Robo.li
+## Usage: robo [flags] [args]
+## Example: "ddev robo config:cex"
+## ProjectTypes: drupal7,drupal8,drupal9,backdrop
+
+php ./vendor/bin/robo $@

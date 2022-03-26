@@ -1,0 +1,8 @@
+#!/bin/bash
+
+## Description: Run Nightwatch
+## Usage: nightwatch [flags] [args]
+## Example: "ddev nightwatch" or "ddev nightwatch --tag core"
+## ProjectTypes: drupal7,drupal8,drupal9,backdrop
+
+yarn --cwd /var/www/html/web/core test:nightwatch $@

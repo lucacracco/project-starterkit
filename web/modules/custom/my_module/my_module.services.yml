@@ -1,0 +1,5 @@
+services:
+
+  # Services.
+  my_module.example_service:
+    class: Drupal\my_module\Service\MyModuleService

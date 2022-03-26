@@ -1,0 +1,9 @@
+my_module.description:
+  title: MyModule Description
+  route_name: my_module.description
+  expanded: TRUE
+
+my_module.sum_in_hands:
+  title: Sum in hands
+  route_name: my_module.sum_in_hands
+  parent: my_module.description

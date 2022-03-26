@@ -1,0 +1,8 @@
+name: "Testing Mock Module"
+type: module
+hidden: true
+description: "Mock module for the MyModule module."
+package: Example
+core_version_requirement: ^8.8 || ^9
+dependencies:
+  - my_module:my_module

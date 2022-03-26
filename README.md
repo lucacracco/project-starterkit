@@ -18,7 +18,7 @@
 ### Create new project
 
 ```shell
-composer create-project lucacracco/project-starterkit:dev-drupal-8.x my-folder
+composer create-project lucacracco/project-starterkit:dev-drupal-9.x my-folder
 ```
 
 Proceed to step [Setup (with docker)](#setup-with-docker).
@@ -27,20 +27,20 @@ Proceed to step [Setup (with docker)](#setup-with-docker).
 
 Clone this repo to your local machine using: `git clone git@...`
 
-### Setup (with docker)
+### DDEV
 
-- Clone the `docker/.env.dist` file to `docker/.env`
+More
+info: [https://ddev.readthedocs.io/en/stable/](https://ddev.readthedocs.io/en/stable/)
+.
 
-- Customize the `docker/.env` file with your parameters
-
-- Customize the stack for your host/OS (_MAC users see this [instructions](https://wodby.com/docs/1.0/stacks/drupal/local/#docker-for-mac)_)
-
-- Run docker and access to container PHP:
+Run LAMP stack:
 
 ```shell
-cd docker
-make up && make shell
+ddev start
+ddev ssh
 ```
+
+Note: You can override the `config.yaml` with extra files named `config.*.yaml`.
 
 ### Install
 
@@ -87,8 +87,6 @@ When you download a new code (pull from repository an updates), will run:
 
 #### Export/import configuration
 
-_(run commands inside the container PHP)_
-
 ```shell
 robo config:export
 robo config:import
@@ -98,5 +96,3 @@ robo config:import
 
 - **How do I do *specifically* so and so?**
     - No problem! Just do this.
-_ **Permission issues?**
-    - See [https://wodby.com/docs/1.0/stacks/drupal/local/#permissions-issues](https://wodby.com/docs/1.0/stacks/drupal/local/#permissions-issues)

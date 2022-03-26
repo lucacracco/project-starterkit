@@ -1,2 +1,7 @@
-/default.services.yml
-/default.settings.php
+*
+!.gitignore
+!tpl.services.yml
+!tpl.settings.php
+!monolog.services.yml
+# It is recommended not tracking this file
+#!settings.ddev.php

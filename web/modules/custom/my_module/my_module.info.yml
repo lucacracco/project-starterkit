@@ -1,0 +1,11 @@
+name: My Module
+type: module
+description: Demonstrates custom module implementation.
+package: Example
+core_version_requirement: ^8.8 || ^9
+dependencies:
+  - drupal:field
+  - drupal:node
+  - drupal:path
+  - drupal:simpletest
+  - drupal:text

@@ -1,0 +1,29 @@
+# This route is to a page explaining the module.
+my_module.description:
+  path: '/testing'
+  defaults:
+    _controller: '\Drupal\my_module\Controller\MyModuleController::description'
+  requirements:
+    _permission: 'access content'
+
+# This route displays a sum of two numbers in terms of how many hands are
+# required to count it.
+my_module.sum_in_hands:
+  path: '/testing/sum-in-hands/{first}/{second}'
+  defaults:
+    _controller: '\Drupal\my_module\Controller\ContrivedController::displayAddedNumbers'
+    first: 23
+    second: 77
+  requirements:
+    _permission: 'access content'
+    first: '^[0-9]+'
+    second: '^[0-9]+'
+
+# This route display a form.
+my_module.default_form:
+  path: '/form'
+  defaults:
+    _form: '\Drupal\my_module\Form\DefaultForm'
+    _title: 'DefaultForm'
+  requirements:
+    _access: 'TRUE'

@@ -1,0 +1,6 @@
+services:
+  my_module.my_module_default:
+    class: Drupal\my_module\Command\DefaultCommand
+    arguments: []
+    tags:
+      - { name: drupal.command }

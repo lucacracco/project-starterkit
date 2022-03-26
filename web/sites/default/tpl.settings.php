@@ -68,6 +68,7 @@
  *
  * One example of the simplest connection array is shown below. To use the
  * sample settings, copy and uncomment the code below between the @code and
+ *
  * @endcode lines and paste it after the $databases declaration. You will need
  * to replace the database username and password and possibly the host and port
  * with the appropriate credentials for your database system.
@@ -88,16 +89,10 @@
  * ];
  * @endcode
  */
-$databases['default']['default'] = [
-  'database' => getenv('DB_NAME'),
-  'username' => getenv('DB_USER'),
-  'password' => getenv('DB_PASSWORD'),
-  'host' => getenv('DB_HOST'),
-  'port' => getenv('DB_PORT'),
-  'driver' => 'mysql',
-  'prefix' => '',
-  'collation' => 'utf8mb4_general_ci',
-];
+
+use Drupal\Core\Installer\InstallerKernel;
+
+$databases = [];
 
 /**
  * Customizing database settings.
@@ -133,6 +128,7 @@ $databases['default']['default'] = [
  * traditionally referred to as master/slave in database server documentation).
  *
  * The general format for the $databases array is as follows:
+ *
  * @code
  * $databases['default']['default'] = $info_array;
  * $databases['default']['replica'][] = $info_array;
@@ -147,49 +143,16 @@ $databases['default']['default'] = [
  * request as needed.  The fourth line creates a new database with a name of
  * "extra".
  *
- * You can optionally set prefixes for some or all database table names
- * by using the 'prefix' setting. If a prefix is specified, the table
- * name will be prepended with its value. Be sure to use valid database
- * characters only, usually alphanumeric and underscore. If no prefixes
- * are desired, leave it as an empty string ''.
+ * You can optionally set a prefix for all database table names by using the
+ * 'prefix' setting. If a prefix is specified, the table name will be prepended
+ * with its value. Be sure to use valid database characters only, usually
+ * alphanumeric and underscore. If no prefix is desired, do not set the 'prefix'
+ * key or set its value to an empty string ''.
  *
- * To have all database names prefixed, set 'prefix' as a string:
+ * For example, to have all database table prefixed with 'main_', set:
  * @code
  *   'prefix' => 'main_',
  * @endcode
- *
- * Per-table prefixes are deprecated as of Drupal 8.2, and will be removed in
- * Drupal 9.0. After that, only a single prefix for all tables will be
- * supported.
- *
- * To provide prefixes for specific tables, set 'prefix' as an array.
- * The array's keys are the table names and the values are the prefixes.
- * The 'default' element is mandatory and holds the prefix for any tables
- * not specified elsewhere in the array. Example:
- * @code
- *   'prefix' => [
- *     'default'   => 'main_',
- *     'users'     => 'shared_',
- *     'sessions'  => 'shared_',
- *     'role'      => 'shared_',
- *     'authmap'   => 'shared_',
- *   ],
- * @endcode
- * You can also use a reference to a schema/database as a prefix. This may be
- * useful if your Drupal installation exists in a schema that is not the default
- * or you want to access several databases from the same code base at the same
- * time.
- * Example:
- * @code
- *   'prefix' => [
- *     'default'   => 'main.',
- *     'users'     => 'shared.',
- *     'sessions'  => 'shared.',
- *     'role'      => 'shared.',
- *     'authmap'   => 'shared.',
- *   ];
- * @endcode
- * NOTE: MySQL and SQLite's definition of a schema is a database.
  *
  * Advanced users can add or override initial commands to execute when
  * connecting to the database server, as well as PDO connection settings. For
@@ -262,7 +225,7 @@ $databases['default']['default'] = [
  * directory in the public files path. The setting below allows you to set
  * its location.
  */
-$settings['config_sync_directory'] = '../config/default/sync';
+$settings['config_sync_directory'] = '../config/default';
 
 /**
  * Settings:
@@ -287,6 +250,7 @@ $settings['config_sync_directory'] = '../config/default/sync';
  * stored with backups of your database.
  *
  * Example:
+ *
  * @code
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
@@ -325,6 +289,7 @@ $settings['update_free_access'] = FALSE;
  * allow an insecure fallback to HTTP. Note that doing so will open your site up
  * to a potential man-in-the-middle attack. You should instead attempt to
  * resolve the issues before enabling this option.
+ *
  * @see https://www.drupal.org/docs/system-requirements/php-requirements#openssl
  * @see https://en.wikipedia.org/wiki/Man-in-the-middle_attack
  * @see \Drupal\update\UpdateFetcher
@@ -403,6 +368,7 @@ $settings['update_free_access'] = FALSE;
  * - \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
  *
  * Note the default value of
+ *
  * @code
  * \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
  * @endcode
@@ -545,7 +511,7 @@ $settings['update_free_access'] = FALSE;
  * See https://www.drupal.org/documentation/modules/file for more information
  * about securing private files.
  */
-$settings['file_private_path'] = '../private';
+# $settings['file_private_path'] = '';
 
 /**
  * Temporary file path:
@@ -722,6 +688,7 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  * like to allow.
  *
  * For example:
+ *
  * @code
  * $settings['trusted_host_patterns'] = [
  *   '^www\.example\.com$',
@@ -797,7 +764,7 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 /**
  * Setup Redis.
  */
-//if (!drupal_installation_attempted() && extension_loaded('redis') && class_exists('Drupal\redis\ClientFactory')) {
+//if (!InstallerKernel::installationAttempted() && extension_loaded('redis') && class_exists('Drupal\redis\ClientFactory')) {
 //
 //  // Set Redis as the default backend for any cache bin not otherwise specified.
 //  $settings['cache']['default'] = 'cache.backend.redis';
@@ -857,11 +824,17 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 /**
  * Monolog.
  */
-//if (file_exists($app_root . '/' . $site_path . '/monolog.services.yml')) {
-//  $settings['container_yamls'][] = $app_root . '/' . $site_path . '/monolog.services.yml';
-//}
-//if (file_exists($app_root . '/' . $site_path . '/monolog.services.local.yml')) {
-//  $settings['container_yamls'][] = $app_root . '/' . $site_path . '/monolog.services.local.yml';
+//if (!InstallerKernel::installationAttempted() && file_exists('modules/contrib/monolog/monolog.services.yml')) {
+//
+//  // Allow the services to work before the Monolog module itself is enabled.
+//  $settings['container_yamls'][] = 'modules/contrib/monolog/monolog.services.yml';
+//
+//  if (file_exists($app_root . '/' . $site_path . '/monolog.services.yml')) {
+//    $settings['container_yamls'][] = $app_root . '/' . $site_path . '/monolog.services.yml';
+//  }
+//  if (file_exists($app_root . '/' . $site_path . '/monolog.services.local.yml')) {
+//    $settings['container_yamls'][] = $app_root . '/' . $site_path . '/monolog.services.local.yml';
+//  }
 //}
 
 /**
@@ -872,15 +845,24 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 /**
  * CONFIG_SPLIT config.
  */
-//$config['config_split.config_split.dev']['status'] = in_array(getenv('DRUPAL_ENV'), ['local','dev'])? TRUE : FALSE;
-//$config['config_split.config_split.prod']['status'] = in_array(getenv('DRUPAL_ENV'), ['stage','prod'])? TRUE : FALSE;
+//$config['config_split.config_split.local']['status'] = getenv('DRUPAL_ENV') == 'local';
+//$config['config_split.config_split.dev']['status'] = getenv('DRUPAL_ENV') == 'dev';
+//$config['config_split.config_split.stage']['status'] = getenv('DRUPAL_ENV') == 'stage';
+//$config['config_split.config_split.prod']['status'] = getenv('DRUPAL_ENV') == 'prod';
 
 /**
  * Environment indicator.
  */
-//$config['environment_indicator.indicator']['bg_color'] = '#829356';
-//$config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
-//$config['environment_indicator.indicator']['name'] = strtoupper(getenv('DRUPAL_ENV'));
+$config['environment_indicator.indicator']['bg_color'] = '#829356';
+$config['environment_indicator.indicator']['fg_color'] = '#FFFFFF';
+$config['environment_indicator.indicator']['name'] = strtoupper(getenv('DRUPAL_ENV'));
+
+/**
+ * Include for settings managed by ddev.
+ */
+if (file_exists(__DIR__ . '/settings.ddev.php') && getenv('IS_DDEV_PROJECT') == 'true') {
+  include __DIR__ . '/settings.ddev.php';
+}
 
 /**
  * Load local development override configuration, if available.
