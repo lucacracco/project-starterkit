@@ -1,5 +1,7 @@
 <?php
 
+use Consolidation\AnnotatedCommand\CommandData;
+
 /**
  * This is project's console commands configuration for Robo task runner.
  *
@@ -75,6 +77,22 @@ class RoboFile extends \Robo\Tasks {
     return $this->taskExec('./vendor/bin/phpqa')
       ->option('config', './phpqa')
       ->option('tools', implode(' ', $tools))->run();
+  }
+
+  /**
+   * Create a custom folder private/logs.
+   *
+   * @hook post-command scaffold
+   */
+  public function postScaffoldCommand($result, CommandData $commandData) {
+    $private_folder = "private/default";
+    $task_list = [
+      'createPrivateFolder' => $this->taskFilesystemStack()
+        ->mkdir($private_folder),
+      'createLogsFolder' => $this->taskFilesystemStack()
+        ->mkdir("{$private_folder}/logs"),
+    ];
+    $this->getBuilder()->addTaskList($task_list)->run();
   }
 
 }

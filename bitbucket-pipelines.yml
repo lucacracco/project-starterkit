@@ -1,0 +1,43 @@
+image: wodby/drupal-php:7.4-dev
+
+codingStandards: &codingStandards
+  - step:
+      name: Check coding standards
+      caches:
+        - composer
+        - docker
+      script:
+        - /docker-entrypoint.sh
+        - composer install --ignore-platform-reqs --optimize-autoloader --prefer-dist
+        - ./vendor/bin/phpqa --config=.phpqa
+      artifacts:
+        - reports/**
+      services:
+        - docker
+
+tests: &tests
+  - step:
+      name: Run PHP tests
+      caches:
+        - composer
+        - docker
+      script:
+        - /docker-entrypoint.sh
+        - composer install --ignore-platform-reqs --optimize-autoloader --prefer-dist
+        # todo: use a standalone database!.
+        - export SIMPLETEST_BASE_URL=http://localhost
+        - export SIMPLETEST_DB=sqlite://localhost/sites/simpletest/db.sqlite
+        - ./vendor/bin/robo phpunit -- --no-coverage --filter unit ./web/modules/custom
+        - ./vendor/bin/robo phpunit -- --no-coverage --filter kernel ./web/modules/custom
+      services:
+        - docker
+
+pipelines:
+  default:
+    - <<: *codingStandards
+    - <<: *tests
+
+definitions:
+  services:
+    docker:
+      memory: 2048

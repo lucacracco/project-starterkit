@@ -2,6 +2,13 @@
 
 // phpcs:ignoreFile
 
+use Drupal\Core\Installer\InstallerKernel;
+
+/**
+ * Configure sub-site id.
+ */
+$subsite_id = basename(__DIR__);
+
 /**
  * @file
  * Drupal site-specific configuration file.
@@ -89,9 +96,6 @@
  * ];
  * @endcode
  */
-
-use Drupal\Core\Installer\InstallerKernel;
-
 $databases = [];
 
 /**
@@ -225,7 +229,7 @@ $databases = [];
  * directory in the public files path. The setting below allows you to set
  * its location.
  */
-$settings['config_sync_directory'] = '../config/default';
+$settings['config_sync_directory'] = "../config/{$subsite_id}/sync";
 
 /**
  * Settings:
@@ -496,7 +500,7 @@ $settings['update_free_access'] = FALSE;
  * must exist and be writable by Drupal. This directory must be relative to
  * the Drupal installation directory and be accessible over the web.
  */
-# $settings['file_public_path'] = 'sites/default/files';
+# $settings['file_public_path'] = "sites/{$subsite_id}/files";
 
 /**
  * Private file path:
@@ -511,7 +515,7 @@ $settings['update_free_access'] = FALSE;
  * See https://www.drupal.org/documentation/modules/file for more information
  * about securing private files.
  */
-# $settings['file_private_path'] = '';
+$settings['file_private_path'] = "../private/{$subsite_id}";
 
 /**
  * Temporary file path:
@@ -524,7 +528,7 @@ $settings['update_free_access'] = FALSE;
  *
  * @see \Drupal\Component\FileSystem\FileSystem::getOsTemporaryDirectory()
  */
-# $settings['file_temp_path'] = '/tmp';
+$settings['file_temp_path'] = "/tmp/{$subsite_id}";
 
 /**
  * Session write interval:
@@ -774,7 +778,7 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 //
 //  $settings['redis.connection']['host'] = 'redis';
 //  $settings['redis.connection']['port'] = '6379';
-//  #$settings['cache_prefix'] = '';
+//  #$settings['cache_prefix'] = "{$subsite_id}_";
 //
 //  // Apply changes to the container configuration to better leverage Redis.
 //  // This includes using Redis for the lock and flood control systems, as well
@@ -840,7 +844,7 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 /**
  * Default content Deploy.
  */
-//$settings["default_content_deploy_content_directory"] = '../default-content/default';
+//$settings["default_content_deploy_content_directory"] = "../default-content/{$subsite_id}";
 
 /**
  * CONFIG_SPLIT config.

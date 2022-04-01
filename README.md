@@ -21,8 +21,6 @@
 composer create-project lucacracco/project-starterkit:dev-drupal-9.x my-folder
 ```
 
-Proceed to step [Setup (with docker)](#setup-with-docker).
-
 ### Clone
 
 Clone this repo to your local machine using: `git clone git@...`

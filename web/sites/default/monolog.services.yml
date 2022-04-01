@@ -1,16 +1,27 @@
 parameters:
 
-  # Monolog
+  # Monolog.
   monolog.channel_handlers:
-    php: [ 'rotating_file_all', 'rotating_file_php' ]
-    default: [ 'rotating_file_all' ]
-  monolog.processors: [ 'message_placeholder', 'current_user', 'request_uri', 'ip', 'referer', 'memory_usage', 'filter_backtrace' ]
+    default: [ 'rotating_file_default' ]
+    #default: [ 'drupal.dblog' ]
+    php: [ 'rotating_file_php' ]
+
+  # Enabled processors.
+  monolog.processors:
+    - message_placeholder
+    - current_user
+    - request_uri
+    - ip
+    - referer
+    - filter_backtrace
 
 services:
 
+  # Monolog handlers.
+  monolog.handler.rotating_file_default:
+    class: Monolog\Handler\RotatingFileHandler
+    arguments: [ 'private://logs/default.log', 15, '%monolog.level.notice%' ]
+
   monolog.handler.rotating_file_php:
     class: Monolog\Handler\RotatingFileHandler
-    arguments: [ 'private://logs/php.log', 15, '%monolog.level.notice%' ]
-  monolog.handler.rotating_file_all:
-    class: Monolog\Handler\RotatingFileHandler
-    arguments: [ 'private://logs/debug.log', 15, '%monolog.level.debug%' ]
+    arguments: [ 'private://logs/php.log', 15, '%monolog.level.debug%' ]

@@ -1,0 +1,93 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# Select image.
+image: wodby/drupal-php:7.4-dev
+
+# Cache libraries in between jobs
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - vendor/
+    - web/core/
+    - web/libraries/
+    - web/modules/contrib/
+    - web/profiles/contrib/
+    - web/themes/contrib/
+    - drush/Commands/
+
+before_script:
+  - composer install --no-ansi -n --prefer-dist
+
+services:
+  - mariadb:latest
+
+variables:
+  # Required by service:mariadb.
+  MYSQL_DATABASE: "drupal"
+  MYSQL_ALLOW_EMPTY_PASSWORD: "1"
+  # Required by Drupal tests with PHPunit.
+  SIMPLETEST_BASE_URL: "http://localhost"
+  SIMPLETEST_DB: "mysql://root@mariadb/drupal"
+
+build/composer:
+  stage: build
+  script:
+    - composer validate --no-check-all --no-check-publish -n --no-ansi
+
+test/unit:
+  stage: test
+  variables:
+    PHP_XDEBUG: "1"
+    PHP_XDEBUG_MODE: "coverage"
+  script:
+    - mkdir ./reports/phpunit -p
+    - ./vendor/bin/robo phpunit -- --testsuite=unit --group=my_module --coverage-html ./reports/phpunit
+  artifacts:
+    paths:
+      - ./reports/phpunit
+    expire_in: 1 week
+
+test/kernel:
+  stage: test
+  variables:
+    PHP_XDEBUG: "1"
+    PHP_XDEBUG_MODE: "coverage"
+  script:
+    - mkdir ./reports/phpunit -p
+    - ./vendor/bin/robo phpunit -- --testsuite=kernel --group=my_module --coverage-html ./reports/phpunit
+  artifacts:
+    paths:
+      - ./reports/phpunit
+    expire_in: 1 week
+
+test/functional:
+  stage: test
+  allow_failure: true
+  variables:
+    PHP_XDEBUG: "1"
+    PHP_XDEBUG_MODE: "coverage"
+  script:
+    - mkdir ./reports/phpunit -p
+    - ./vendor/bin/robo phpunit -- --testsuite=functional --group=my_module --coverage-html ./reports/phpunit
+  artifacts:
+    paths:
+      - ./reports/phpunit
+    expire_in: 1 week
+
+test/phpqa:
+  stage: test
+  allow_failure: true
+  script:
+    - ./vendor/bin/phpqa --config ./.phpqa
+  artifacts:
+    paths:
+      - reports
+    expire_in: 1 week
+
+deploy-prod:
+  stage: deploy
+  script:
+    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."

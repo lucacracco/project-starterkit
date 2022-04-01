@@ -1,0 +1,7 @@
+name: Monolog extension
+type: module
+description: Provides a custom features for monolog integration.
+package: Custom
+core_version_requirement: ^8 || ^9
+dependencies:
+  - monolog:monolog
