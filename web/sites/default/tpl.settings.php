@@ -75,7 +75,6 @@ $subsite_id = basename(__DIR__);
  *
  * One example of the simplest connection array is shown below. To use the
  * sample settings, copy and uncomment the code below between the @code and
- *
  * @endcode lines and paste it after the $databases declaration. You will need
  * to replace the database username and password and possibly the host and port
  * with the appropriate credentials for your database system.
@@ -132,7 +131,6 @@ $databases = [];
  * traditionally referred to as master/slave in database server documentation).
  *
  * The general format for the $databases array is as follows:
- *
  * @code
  * $databases['default']['default'] = $info_array;
  * $databases['default']['replica'][] = $info_array;
@@ -146,6 +144,21 @@ $databases = [];
  * of potential replica databases.  Drupal will select one at random for a given
  * request as needed.  The fourth line creates a new database with a name of
  * "extra".
+ *
+ * For MySQL, MariaDB or equivalent databases the 'isolation_level' option can
+ * be set. The recommended transaction isolation level for Drupal sites is
+ * 'READ COMMITTED'. The 'REPEATABLE READ' option is supported but can result
+ * in deadlocks, the other two options are 'READ UNCOMMITTED' and 'SERIALIZABLE'.
+ * They are available but not supported; use them at your own risk. For more
+ * info:
+ * https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html
+ *
+ * On your settings.php, change the isolation level:
+ * @code
+ * $databases['default']['default']['init_commands'] = [
+ *   'isolation_level' => 'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED',
+ * ];
+ * @endcode
  *
  * You can optionally set a prefix for all database table names by using the
  * 'prefix' setting. If a prefix is specified, the table name will be prepended
@@ -179,9 +192,9 @@ $databases = [];
  * information on these defaults and the potential issues.
  *
  * More details can be found in the constructor methods for each driver:
- * - \Drupal\Core\Database\Driver\mysql\Connection::__construct()
- * - \Drupal\Core\Database\Driver\pgsql\Connection::__construct()
- * - \Drupal\Core\Database\Driver\sqlite\Connection::__construct()
+ * - \Drupal\mysql\Driver\Database\mysql\Connection::__construct()
+ * - \Drupal\pgsql\Driver\Database\pgsql\Connection::__construct()
+ * - \Drupal\sqlite\Driver\Database\sqlite\Connection::__construct()
  *
  * Sample Database configuration format for PostgreSQL (pgsql):
  * @code
@@ -254,7 +267,6 @@ $settings['config_sync_directory'] = "../config/{$subsite_id}/sync";
  * stored with backups of your database.
  *
  * Example:
- *
  * @code
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
@@ -293,7 +305,6 @@ $settings['update_free_access'] = FALSE;
  * allow an insecure fallback to HTTP. Note that doing so will open your site up
  * to a potential man-in-the-middle attack. You should instead attempt to
  * resolve the issues before enabling this option.
- *
  * @see https://www.drupal.org/docs/system-requirements/php-requirements#openssl
  * @see https://en.wikipedia.org/wiki/Man-in-the-middle_attack
  * @see \Drupal\update\UpdateFetcher
@@ -354,10 +365,13 @@ $settings['update_free_access'] = FALSE;
 # $settings['reverse_proxy'] = TRUE;
 
 /**
- * Specify every reverse proxy IP address in your environment.
- * This setting is required if $settings['reverse_proxy'] is TRUE.
+ * Reverse proxy addresses.
+ *
+ * Specify every reverse proxy IP address in your environment, as an array of
+ * IPv4/IPv6 addresses or subnets in CIDR notation. This setting is required if
+ * $settings['reverse_proxy'] is TRUE.
  */
-# $settings['reverse_proxy_addresses'] = ['a.b.c.d', ...];
+# $settings['reverse_proxy_addresses'] = ['a.b.c.d', 'e.f.g.h/24', ...];
 
 /**
  * Reverse proxy trusted headers.
@@ -372,7 +386,6 @@ $settings['update_free_access'] = FALSE;
  * - \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
  *
  * Note the default value of
- *
  * @code
  * \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO | \Symfony\Component\HttpFoundation\Request::HEADER_FORWARDED
  * @endcode
@@ -503,6 +516,29 @@ $settings['update_free_access'] = FALSE;
 # $settings['file_public_path'] = "sites/{$subsite_id}/files";
 
 /**
+ * Additional public file schemes:
+ *
+ * Public schemes are URI schemes that allow download access to all users for
+ * all files within that scheme.
+ *
+ * The "public" scheme is always public, and the "private" scheme is always
+ * private, but other schemes, such as "https", "s3", "example", or others,
+ * can be either public or private depending on the site. By default, they're
+ * private, and access to individual files is controlled via
+ * hook_file_download().
+ *
+ * Typically, if a scheme should be public, a module makes it public by
+ * implementing hook_file_download(), and granting access to all users for all
+ * files. This could be either the same module that provides the stream wrapper
+ * for the scheme, or a different module that decides to make the scheme
+ * public. However, in cases where a site needs to make a scheme public, but
+ * is unable to add code in a module to do so, the scheme may be added to this
+ * variable, the result of which is that system_file_download() grants public
+ * access to all files within that scheme.
+ */
+# $settings['file_additional_public_schemes'] = ['example'];
+
+/**
  * Private file path:
  *
  * A local file system path where private files will be stored. This directory
@@ -528,7 +564,7 @@ $settings['file_private_path'] = "../private/{$subsite_id}";
  *
  * @see \Drupal\Component\FileSystem\FileSystem::getOsTemporaryDirectory()
  */
-$settings['file_temp_path'] = "/tmp/{$subsite_id}";
+# $settings['file_temp_path'] = "/tmp/{$subsite_id}";
 
 /**
  * Session write interval:
@@ -591,21 +627,6 @@ $settings['file_temp_path'] = "/tmp/{$subsite_id}";
 # ini_set('pcre.recursion_limit', 200000);
 
 /**
- * Add Permissions-Policy header to disable Google FLoC.
- *
- * By default, Drupal sends the 'Permissions-Policy: interest-cohort=()' header
- * to disable Google's Federated Learning of Cohorts feature, introduced in
- * Chrome 89.
- *
- * See https://en.wikipedia.org/wiki/Federated_Learning_of_Cohorts for more
- * information about FLoC.
- *
- * If you don't wish to disable FLoC in Chrome, you can set this value
- * to FALSE.
- */
-# $settings['block_interest_cohort'] = TRUE;
-
-/**
  * Configuration overrides.
  *
  * To globally override specific configuration values for this site,
@@ -629,33 +650,6 @@ $settings['file_temp_path'] = "/tmp/{$subsite_id}";
  */
 # $config['system.site']['name'] = 'My Drupal site';
 # $config['user.settings']['anonymous'] = 'Visitor';
-
-/**
- * Fast 404 pages:
- *
- * Drupal can generate fully themed 404 pages. However, some of these responses
- * are for images or other resource files that are not displayed to the user.
- * This can waste bandwidth, and also generate server load.
- *
- * The options below return a simple, fast 404 page for URLs matching a
- * specific pattern:
- * - $config['system.performance']['fast_404']['exclude_paths']: A regular
- *   expression to match paths to exclude, such as images generated by image
- *   styles, or dynamically-resized images. The default pattern provided below
- *   also excludes the private file system. If you need to add more paths, you
- *   can add '|path' to the expression.
- * - $config['system.performance']['fast_404']['paths']: A regular expression to
- *   match paths that should return a simple 404 page, rather than the fully
- *   themed 404 page. If you don't have any aliases ending in htm or html you
- *   can add '|s?html?' to the expression.
- * - $config['system.performance']['fast_404']['html']: The html to return for
- *   simple 404 pages.
- *
- * Remove the leading hash signs if you would like to alter this functionality.
- */
-# $config['system.performance']['fast_404']['exclude_paths'] = '/\/(?:styles)|(?:system\/files)\//';
-# $config['system.performance']['fast_404']['paths'] = '/\.(?:txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i';
-# $config['system.performance']['fast_404']['html'] = '<!DOCTYPE html><html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>';
 
 /**
  * Load services definition file.
@@ -692,7 +686,6 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  * like to allow.
  *
  * For example:
- *
  * @code
  * $settings['trusted_host_patterns'] = [
  *   '^www\.example\.com$',
@@ -716,6 +709,8 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  * @endcode
  * will allow the site to run off of all variants of example.com and
  * example.org, with all subdomains included.
+ *
+ * @see https://www.drupal.org/docs/installing-drupal/trusted-host-settings
  */
 
 /**
@@ -764,6 +759,49 @@ $settings['entity_update_backup'] = TRUE;
  * node migrations.
  */
 $settings['migrate_node_migrate_type_classic'] = FALSE;
+
+/**
+ * The default settings for migration sources.
+ *
+ * These settings are used as the default settings on the Credential form at
+ * /upgrade/credentials.
+ *
+ * - migrate_source_version - The version of the source database. This can be
+ *   '6' or '7'. Defaults to '7'.
+ * - migrate_source_connection - The key in the $databases array for the source
+ *   site.
+ * - migrate_file_public_path - The location of the source Drupal 6 or Drupal 7
+ *   public files. This can be a local file directory containing the source
+ *   Drupal 6 or Drupal 7 site (e.g /var/www/docroot), or the site address
+ *   (e.g http://example.com).
+ * - migrate_file_private_path - The location of the source Drupal 7 private
+ *   files. This can be a local file directory containing the source Drupal 7
+ *   site (e.g /var/www/docroot), or empty to use the same value as Public
+ *   files directory.
+ *
+ * Sample configuration for a drupal 6 source site with the source files in a
+ * local directory.
+ *
+ * @code
+ * $settings['migrate_source_version'] = '6';
+ * $settings['migrate_source_connection'] = 'migrate';
+ * $settings['migrate_file_public_path'] = '/var/www/drupal6';
+ * @endcode
+ *
+ * Sample configuration for a drupal 7 source site with public source files on
+ * the source site and the private files in a local directory.
+ *
+ * @code
+ * $settings['migrate_source_version'] = '7';
+ * $settings['migrate_source_connection'] = 'migrate';
+ * $settings['migrate_file_public_path'] = 'https://drupal7.com';
+ * $settings['migrate_file_private_path'] = '/var/www/drupal7';
+ * @endcode
+ */
+# $settings['migrate_source_connection'] = '';
+# $settings['migrate_source_version'] = '';
+# $settings['migrate_file_public_path'] = '';
+# $settings['migrate_file_private_path'] = '';
 
 /**
  * Setup Redis.

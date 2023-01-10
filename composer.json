@@ -11,24 +11,32 @@
     ],
     "require": {
         "composer/installers": "^1.9",
-        "drupal/config_split": "^1.7",
+        "drupal/config_split": "^1.9",
         "drupal/console": "^1.9",
-        "drupal/core-composer-scaffold": "^9.3",
-        "drupal/core-recommended": "^9.3",
+        "drupal/core": "^9.5",
+        "drupal/core-composer-scaffold": "^9.5",
+        "drupal/core-recommended": "^9.5",
         "drupal/environment_indicator": "^4.0",
-        "drupal/monolog": "^2.0",
-        "drupal/redis": "^1.5",
+        "drupal/monolog": "^2.2",
+        "drupal/redis": "^1.6",
         "drush/drush": "^10",
-        "lucacracco/robo-drupal": "^2.0"
+        "lucacracco/robo-drupal": "^2.1"
     },
     "require-dev": {
         "bex/behat-screenshot": "^2.1",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
-        "drupal/core-dev": "^9.2",
-        "drupal/devel": "^4.1",
+        "drupal/core-dev": "^9.5",
+        "drupal/devel": "^5.1",
         "drupal/drupal-extension": "^4.1",
         "edgedesign/phpqa": "^1.25",
         "phpspec/prophecy-phpunit": "^2"
+    },
+    "scripts": {
+        "nuke": [
+            "rm -rf vendor web/core web/modules/contrib web/profiles/contrib web/themes/contrib",
+            "@composer clearcache --ansi",
+            "@composer install --ansi --no-interaction --prefer-dist"
+        ]
     },
     "conflict": {
         "drupal/drupal": "*"

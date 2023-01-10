@@ -3,7 +3,7 @@
 ## Description: Run PHPUnit
 ## Usage: phpunit [flags] [args]
 ## Example: "ddev phpunit --group big_pipe" or "ddev phpunit core/modules/action"
-## ProjectTypes: drupal7,drupal8,drupal9,backdrop
+## ProjectTypes: drupal8,drupal9
 
 mkdir -p sites/simpletest/browser_output
 chmod -R 777 sites/simpletest/browser_output

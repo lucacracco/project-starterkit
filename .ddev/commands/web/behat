@@ -3,6 +3,6 @@
 ## Description: Run Behat
 ## Usage: behat [flags] [args]
 ## Example: "ddev phpunit --tags tag1"
-## ProjectTypes: drupal7,drupal8,drupal9,backdrop
+## ProjectTypes: drupal8,drupal9
 
 php ./vendor/bin/behat --config=./behat/behat.yml $@

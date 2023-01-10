@@ -18,9 +18,12 @@ class RoboFile extends \Robo\Tasks {
    * @return \Robo\Result
    */
   public function behat(array $tags) {
-    return $this->taskExec('./vendor/bin/behat')
-      ->option('config', './behat/behat.yml')
-      ->option('tags', implode(' ', $tags))->run();
+    $task = $this->taskExec('./vendor/bin/behat')
+      ->option('config', './behat/behat.yml');
+    if (!empty($tags)) {
+      $task->option('tags', implode(' ', $tags));
+    }
+    return $task->run();
   }
 
   /**
@@ -74,9 +77,21 @@ class RoboFile extends \Robo\Tasks {
    * @return \Robo\Result
    */
   public function phpqa(array $tools) {
-    return $this->taskExec('./vendor/bin/phpqa')
-      ->option('config', './phpqa')
-      ->option('tools', implode(' ', $tools))->run();
+    $task_list = [
+      'createFolder' => $this->taskFilesystemStack()
+        ->mkdir('./reports'),
+      'permissionsFolder' => $this->taskFilesystemStack()
+        ->chmod('./reports', 0775),
+    ];
+
+    $task_phpqa = $this->taskExec('./vendor/bin/phpqa')
+      ->option('config', './.phpqa');
+    if (!empty($tools)) {
+      $task_phpqa->option('tools', implode(' ', $tools));
+    }
+
+    $task_list['executePhpQA'] = $task_phpqa;
+    return $this->getBuilder()->addTaskList($task_list)->run();
   }
 
   /**
