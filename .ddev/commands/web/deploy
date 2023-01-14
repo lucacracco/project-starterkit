@@ -6,6 +6,4 @@
 ## Example: "ddev deploy"
 ## ProjectTypes: drupal8,drupal9
 
-drush updb -y
-drush cim -y
-drush cr
+php ./vendor/bin/robo deploy

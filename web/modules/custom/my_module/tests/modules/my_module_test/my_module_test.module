@@ -7,6 +7,7 @@
 
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_ENTITY_TYPE_view().
@@ -16,6 +17,8 @@ use Drupal\Core\Entity\EntityInterface;
  * @ingroup my_module
  */
 function my_module_test_node_view(array &$build, EntityInterface $node, EntityViewDisplayInterface $display, $view_mode) {
+  assert($node instanceof NodeInterface);
+
   if ($node->getType() == 'my_module') {
     $build['simpletest_example_test_section'] = [
       '#markup' => t('The test module did its thing.'),

@@ -29,7 +29,18 @@
         "drupal/devel": "^5.1",
         "drupal/drupal-extension": "^4.1",
         "edgedesign/phpqa": "^1.25",
-        "phpspec/prophecy-phpunit": "^2"
+        "enlightn/security-checker": "^1.10",
+        "jakub-onderka/php-console-highlighter": "^0.4.0",
+        "jakub-onderka/php-parallel-lint": "^1.0",
+        "mglaman/phpstan-drupal": "^1.1",
+        "nette/neon": "^3.3",
+        "php-parallel-lint/php-console-highlighter": "^1.0",
+        "php-parallel-lint/php-parallel-lint": "^1.3",
+        "phpspec/prophecy-phpunit": "^2",
+        "phpstan/phpstan": "^1.9",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "vimeo/psalm": "^4.30",
+        "wapmorgan/php-deprecation-detector": "^2.0"
     },
     "scripts": {
         "nuke": [
@@ -41,7 +52,7 @@
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "sort-packages": true,

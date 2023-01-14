@@ -1,4 +1,6 @@
 phpqa:
+  # default CLI options - https://github.com/EdgedesignCZ/phpqa#analyze
+  # can be overriden by CLI: phpqa --tools phpcs:1
   analyzedDirs: ./web/modules/custom
   buildDir: reports
   ignoredDirs: tests,node_modules
@@ -14,9 +16,13 @@ phpqa:
     - pdepend
     - phpcpd
     - security-checker
-#    # Require composer autoload. Active only if have installed libraries dependencies of project.
+    - parallel-lint
+    # Require composer autoload. Active only if have installed libraries dependencies of project.
     - phpstan
     - psalm
+
+  # Other config
+  # Php file extensions to parse.
   extensions:
     - php
     - inc
@@ -30,32 +36,55 @@ phpqa:
     - md
 
 phpcs:
+  # alternatively you can use an array to define multiple standards (https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage#specifying-a-coding-standard)
   standard: .phpcs.xml
+  # number of allowed errors is compared with warnings+errors, or just errors from checkstyle.xml
   ignoreWarnings: true
   # https://github.com/squizlabs/PHP_CodeSniffer/wiki/Reporting
   reports:
     cli:
       - full
     file:
+      # checkstyle is always included and overriden
       checkstyle: checkstyle.xml
+      # you can include custom reports (https://github.com/wikidi/codesniffer/blob/master/reports/wikidi/Summary.php#L39)
+      # ./vendor/owner/package/src/MySummaryReport.php: phpcs-summary.html
+
+#php-cs-fixer:
+#  # http://cs.sensiolabs.org/#usage
+#  rules: '@PSR2'
+#  allowRiskyRules: false
+#  # by default the tool is runned in dry-run mode (no fixers are applied)
+#  isDryRun: true
+#  # alternatively you can define path to your .phpcs_file (rules/allowRiskyRules config is ignored)
+#  config: null
+
+phpmd:
+  # alternatively you can use an array to define multiple rule sets (https://phpmd.org/documentation/index.html#using-multiple-rule-sets)
+  standard: .phpmd.xml
+  ignoreParsingErrors: true
 
 pdepend:
 # coverageReport: build/coverage-clover.xml
 
-phpmd:
-  standard: ./.phpmd.xml
-
 phpstan:
   level: 3
-  standard: phpstan.neon
+  # https://github.com/phpstan/phpstan/issues/1880
+  memoryLimit: null
+  # https://github.com/phpstan/phpstan#configuration
+  standard: .phpstan.neon
 
 phpcpd:
   minLines: 5
   minTokens: 70
 
 phpmetrics:
+  # v1
   config: null
+  # v2
   git: false
+  # junit: build/log-junit.xml
+  # composer: composer.json
 
 psalm:
   config: .psalm.xml
@@ -63,3 +92,8 @@ psalm:
   threads: 2
   showInfo: true
   allowMissingFiles: true
+  # no memory limit = using ini defaults (https://github.com/EdgedesignCZ/phpqa/issues/144
+  memoryLimit: null
+
+security-checker:
+  composerLock: null # use it if composer.lock is not in current working directory or analyzed directory

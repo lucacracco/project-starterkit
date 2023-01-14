@@ -103,7 +103,7 @@ class ContrivedControllerTest extends UnitTestCase {
     $controller = $this->getMockBuilder(ContrivedController::class)
       ->setConstructorArgs([$this->getStringTranslationStub()])
       // Specify that we'll also mock add().
-      ->setMethods(['add'])
+      ->onlyMethods(['add'])
       ->getMock();
 
     // Mock add() so that it returns our $sum when it's called with (0,0).

@@ -21,7 +21,7 @@ class MyModuleMenuTest extends BrowserTestBase {
   /**
    * Modules to enable.
    *
-   * @var array
+   * @var string[]
    */
   protected static $modules = ['my_module'];
 

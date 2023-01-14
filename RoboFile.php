@@ -95,6 +95,30 @@ class RoboFile extends \Robo\Tasks {
   }
 
   /**
+   * Run Php Deprecation Detector.
+   *
+   * Analyzes PHP code and searches issues with deprecated functionality in
+   * newer interpreter versions.
+   *
+   * @param string $files
+   *   Which files you want to analyze (separate multiple names with a space)
+   * @param string $target
+   *   Sets target PHP interpreter version. [default: "8.0"]
+   * @param string $after
+   *   Sets initial PHP interpreter version for checks. [default: "5.3"]
+   *
+   * @return \Robo\Result
+   */
+  public function phpdd(string $files, string $target = '8.0', string $after = '5.3') {
+    return $this->taskExec('./vendor/bin/phpdd')
+      ->args($files)
+      ->option('target', $target)
+      ->option('after', $after)
+      ->option('file-extensions', 'php, php5, phtml, module')
+      ->run();
+  }
+
+  /**
    * Create a custom folder private/logs.
    *
    * @hook post-command scaffold

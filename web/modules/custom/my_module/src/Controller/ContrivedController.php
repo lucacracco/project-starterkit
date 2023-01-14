@@ -5,6 +5,7 @@ namespace Drupal\my_module\Controller;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
+use Drupal\Core\StringTranslation\TranslationManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,9 +21,10 @@ class ContrivedController implements ContainerInjectionInterface {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('string_translation')
-    );
+    $string_translation = $container->get('string_translation');
+    assert($string_translation instanceof TranslationManager);
+
+    return new static($string_translation);
   }
 
   /**
@@ -31,7 +33,7 @@ class ContrivedController implements ContainerInjectionInterface {
    * @param \Drupal\Core\StringTranslation\TranslationInterface $translation
    *   The translation service.
    */
-  public function __construct(TranslationInterface $translation) {
+  final public function __construct(TranslationInterface $translation) {
     $this->setStringTranslation($translation);
   }
 
@@ -63,8 +65,8 @@ class ContrivedController implements ContainerInjectionInterface {
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
    *   The translated message.
    */
-  protected function handCount($first, $second) {
-    $sum = abs($this->add((int) $first, (int) $second));
+  protected function handCount(int $first, int $second) {
+    $sum = abs($this->add($first, $second));
     if ($sum <= 5) {
       $message = $this->t('I can count these on one hand.');
     }

@@ -30,6 +30,8 @@ class DefaultCommand extends Command {
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
     $this->getIo()->info('Example command');
+
+    return 0;
   }
 
 }

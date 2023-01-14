@@ -113,3 +113,6 @@ docker/.env
 # Ignore editor configurations.
 .editorconfig
 .gitattributes
+
+# PHPQA
+.deptrac.cache

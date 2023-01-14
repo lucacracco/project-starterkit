@@ -15,7 +15,7 @@ class MyModuleServiceUnitTest extends UnitTestCase {
   /**
    * Dummy thing.
    *
-   * @var bool
+   * @var \Drupal\my_module\Service\MyModuleService
    */
   protected $dummy;
 

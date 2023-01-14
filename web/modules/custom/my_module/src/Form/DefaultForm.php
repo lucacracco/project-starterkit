@@ -48,7 +48,7 @@ class DefaultForm extends FormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     if (strlen($form_state->getValue('text')) < 3) {
-      $form_state->setErrorByName('text', $this->t("Text too short!"));
+      $form_state->setErrorByName('text', (string) $this->t("Text too short!"));
     }
     parent::validateForm($form, $form_state);
   }
