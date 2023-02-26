@@ -1,8 +1,13 @@
 {
     "name": "lucacracco/project-starterkit",
-    "description": "Project template custom for Drupal 9 projects with a relocated document root",
+    "description": "Project template custom for Drupal",
     "type": "project",
     "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/drupal",
+    "support": {
+        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
+        "chat": "https://www.drupal.org/node/314178"
+    },
     "repositories": [
         {
             "type": "composer",
@@ -10,36 +15,32 @@
         }
     ],
     "require": {
-        "composer/installers": "^1.9",
+        "composer/installers": "^2.0",
         "drupal/config_split": "^1.9",
-        "drupal/console": "^1.9",
-        "drupal/core": "^9.5",
-        "drupal/core-composer-scaffold": "^9.5",
-        "drupal/core-recommended": "^9.5",
+        "drupal/core": "^10.0",
+        "drupal/core-composer-scaffold": "^10.0",
+        "drupal/core-recommended": "^10.0",
         "drupal/environment_indicator": "^4.0",
         "drupal/monolog": "^2.2",
         "drupal/redis": "^1.6",
-        "drush/drush": "^10",
-        "lucacracco/robo-drupal": "^2.1"
+        "drush/drush": "^11.5",
+        "lucacracco/robo-drupal": "^4.0"
     },
     "require-dev": {
-        "bex/behat-screenshot": "^2.1",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
-        "drupal/core-dev": "^9.5",
+        "drupal/core-dev": "^10.0",
         "drupal/devel": "^5.1",
-        "drupal/drupal-extension": "^4.1",
-        "edgedesign/phpqa": "^1.25",
+        "drupal/drupal-extension": "^5.0@alpha",
+        "edgedesign/phpqa": "^1.26",
         "enlightn/security-checker": "^1.10",
         "jakub-onderka/php-console-highlighter": "^0.4.0",
         "jakub-onderka/php-parallel-lint": "^1.0",
         "mglaman/phpstan-drupal": "^1.1",
-        "nette/neon": "^3.3",
-        "php-parallel-lint/php-console-highlighter": "^1.0",
-        "php-parallel-lint/php-parallel-lint": "^1.3",
-        "phpspec/prophecy-phpunit": "^2",
+        "nette/neon": "^3.4",
+        "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^1.9",
         "phpstan/phpstan-deprecation-rules": "^1.1",
-        "vimeo/psalm": "^4.30",
+        "vimeo/psalm": "^5.6",
         "wapmorgan/php-deprecation-detector": "^2.0"
     },
     "scripts": {
@@ -61,6 +62,7 @@
             "drupal/core-composer-scaffold": true,
             "drupal/console-extend-plugin": true,
             "cweagans/composer-patches": true,
+            "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },

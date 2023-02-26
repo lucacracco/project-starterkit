@@ -4,6 +4,6 @@
 ## Description: Deploy Drupal
 ## Usage: deploy
 ## Example: "ddev deploy"
-## ProjectTypes: drupal8,drupal9
+## ProjectTypes: drupal8,drupal9,drupal10
 
 php ./vendor/bin/robo deploy

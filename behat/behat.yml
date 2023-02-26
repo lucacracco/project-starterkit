@@ -8,12 +8,6 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
   extensions:
-    Bex\Behat\ScreenshotExtension:
-      screenshot_taking_mode: failed_scenarios
-      image_drivers:
-        local:
-          screenshot_directory: ./../features/screenshots
-          clear_screenshot_directory: true  # Enable removing all images before each test run. It is false by default.
     Drupal\MinkExtension:
       goutte: ~
       # Active chrome container in docker-compose for use selenium.

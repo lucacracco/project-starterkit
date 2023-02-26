@@ -3,6 +3,6 @@
 ## Description: Run Nightwatch
 ## Usage: nightwatch [flags] [args]
 ## Example: "ddev nightwatch" or "ddev nightwatch --tag core"
-## ProjectTypes: drupal8,drupal9
+## ProjectTypes: drupal8,drupal9,drupal10
 
 yarn --cwd /var/www/html/web/core test:nightwatch $@

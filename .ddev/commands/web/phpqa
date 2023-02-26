@@ -3,7 +3,7 @@
 ## Description: Run PHPQA
 ## Usage: phpqa [flags] [args]
 ## Example: "ddev phpqa" or "ddev phpqa phpcs,phpmd"
-## ProjectTypes: drupal8,drupal9
+## ProjectTypes: drupal8,drupal9,drupal10
 
 mkdir -p ./reports
 chmod -R 775 ./reports

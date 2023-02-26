@@ -3,6 +3,6 @@
 ## Description: Run Robo.li
 ## Usage: robo [flags] [args]
 ## Example: "ddev robo config:cex"
-## ProjectTypes: drupal7,drupal8,drupal9,backdrop
+## ProjectTypes: drupal8,drupal9,drupal10
 
 php ./vendor/bin/robo $@

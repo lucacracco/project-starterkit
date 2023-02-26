@@ -3,7 +3,7 @@
 ## Description: Run Behat
 ## Usage: behat [flags] [args]
 ## Example: "ddev behat tag1"
-## ProjectTypes: drupal8,drupal9
+## ProjectTypes: drupal8,drupal9,drupal10
 
 php ./vendor/bin/behat
 php ./vendor/bin/robo behat $@
